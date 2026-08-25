@@ -789,7 +789,7 @@ Ainsi, les performances obtenues en \textit{zero-shot} montrent que la simulatio
 \subsection{Discussion}
 \label{subsec}
 
-L'expérience permet finalement de répondre partiellement à la question initiale. La simulation seule ne permet pas d'obtenir les meilleures performances de classification, mais elle n'est pas non plus dépourvue de pouvoir discriminant. Les performances obtenues en \textit{zero-shot}, supérieures au hasard et pouvant atteindre environ \num{75}% selon les configurations, montrent que le réseau apprend des représentations qui conservent une partie de l'information pertinente lors du passage des données simulées aux données expérimentales.
+L'expérience permet finalement de répondre partiellement à la question initiale. La simulation seule ne permet pas d'obtenir les meilleures performances de classification, mais elle n'est pas non plus dépourvue de pouvoir discriminant. Les performances obtenues en \textit{zero-shot}, supérieures au hasard et pouvant atteindre environ \num{70}% selon les espèces, montrent que le réseau apprend des représentations qui conservent une partie de l'information pertinente lors du passage des données simulées aux données expérimentales.
 
 L'amélioration obtenue lorsque le backbone est laissé entraînable est particulièrement informative. Elle suggère que les caractéristiques générales apprises sur les simulations constituent une bonne initialisation, mais qu'elles doivent être adaptées aux spécificités des acquisitions réelles. Le fine-tuning permet ainsi de conserver une partie des connaissances acquises lors du pré-entraînement tout en ajustant les représentations aux phénomènes non reproduits par la simulation.
 
