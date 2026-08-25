@@ -753,7 +753,7 @@ Cette comparaison permet de distinguer deux effets. Le premier est la capacité 
 \subsection{Résultats}
 \label{subsec}
 
-Les résultats obtenus montrent que les données simulées contiennent bien une information exploitable pour la classification. En particulier, l'approche \textit{zero-shot} permet d'obtenir une accuracy d'environ \num{65}%, avec certaines configurations atteignant environ \num{75}%. Ces performances sont nettement supérieures à un comportement purement aléatoire, mais restent éloignées des performances obtenues lorsque le modèle est entraîné directement sur les données expérimentales.
+Les résultats obtenus montrent que les données simulées contiennent bien une information exploitable pour la classification. En particulier, l'approche \textit{zero-shot} permet d'obtenir une accuracy d'environ \num{60}%, avec certaines espèces atteignant environ \num{70}%. Ces performances sont supérieures à un comportement purement aléatoire, mais restent éloignées des performances obtenues lorsque le modèle est entraîné directement sur les données expérimentales.
 
 Le résultat obtenu en \textit{zero-shot} constitue ainsi un premier élément en faveur de l'existence d'une information commune entre les signaux simulés et expérimentaux. Le réseau est capable de produire des prédictions pertinentes sur des signaux qu'il n'a jamais utilisés pour son apprentissage. Cependant, le niveau de performance obtenu reste insuffisant pour considérer la simulation seule comme une solution complète au problème de classification.
 
@@ -768,7 +768,7 @@ Les stratégies intégrant une phase d'apprentissage sur les données expérimen
 \midrule
 Zero-shot       & Gelé      & $58\% \pm 1\%$ \\
 Transfer learning & Gelé    & $64\% \pm 2\%$ \\
-Fine-tuning     & Non gelé  & $66\% \pm 2\%$ \\
+Fine-tuning     & Non gelé  & $75\% \pm 2\%$ \\
 \bottomrule
 \end{tabular}
 \end{table}
