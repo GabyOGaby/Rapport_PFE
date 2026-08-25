@@ -751,18 +751,17 @@ Les résultats obtenus montrent que les données simulées contiennent bien une 
 Le résultat obtenu en \textit{zero-shot} constitue ainsi un premier élément en faveur de l'existence d'une information commune entre les signaux simulés et expérimentaux. Le réseau est capable de produire des prédictions pertinentes sur des signaux qu'il n'a jamais utilisés pour son apprentissage. Cependant, le niveau de performance obtenu reste insuffisant pour considérer la simulation seule comme une solution complète au problème de classification.
 
 Les stratégies intégrant une phase d'apprentissage sur les données expérimentales permettent d'améliorer ces performances. Les meilleurs résultats sont obtenus lorsque le \textbf{backbone convolutif n'est pas gelé}. Le fine-tuning de l'ensemble du réseau permet ainsi d'adapter les représentations apprises sur les signaux simulés aux caractéristiques spécifiques des mesures expérimentales.
-
 \begin{table}[htbp]
 \centering
 \caption{Comparaison des stratégies de transfert entre données simulées et expérimentales.}
-\label{tab}
+\label{tab:transfer}
 \begin{tabular}{lcc}
 \toprule
-\textbf{Stratégie} & \textbf{Backbone} & \textbf{Accuracy} \
+\textbf{Stratégie} & \textbf{Backbone} & \textbf{Accuracy} \\
 \midrule
-Zero-shot & Gelé & 58%$ (+- 1%$)$\
-Transfer learning & Gelé &  64%$ (+- 2%$)\
-Fine-tuning & Non gelé &  66%$ (+- 2%$) \
+Zero-shot       & Gelé      & $58\% \pm 1\%$ \\
+Transfer learning & Gelé    & $64\% \pm 2\%$ \\
+Fine-tuning     & Non gelé  & $66\% \pm 2\%$ \\
 \bottomrule
 \end{tabular}
 \end{table}
