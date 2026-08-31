@@ -189,7 +189,7 @@ Le NMR‑MOUSE (\textit{Mobile Universal Surface Explorer}) \cite{Blumich1998} e
 Cette configuration présente deux spécificités majeures :
 \begin{itemize}
 \item \textbf{Noyau cible :} En régime de bas champ, la détection est limitée aux noyaux d'hydrogène ($^1\text{H}$), qui possèdent la sensibilité intrinsèque la plus élevée en RMN. Ce noyau étant le constituant majeur de l'eau et donc des tissus végétaux, le NMR-MOUSE est particulièrement adapté à l'étude de la dynamique hydrique des plantes.
-\item \textbf{Résolution spatiale :} L'ensemble aimant/antenne RF (cf. figure 1) peut être déplacé à l'aide d'un ascenceur de précision. Ainsi, la zone sensible qui est une coupe fine peut varier au sein de l'échantillon. Le dispositif permet ainsi d'effectuer des mesures par tranches de profondeur successives, parallèles à la surface de l'aimant, avec une précision allant jusqu'à \num{50}~\textmu m. Il est ainsi possible d'acquérir le signal à différentes profondeurs.
+\item \textbf{Résolution spatiale :} L'ensemble aimant/antenne RF (cf. Figure~\ref{fig:MOUSE}) peut être déplacé à l'aide d'un ascenceur de précision. Ainsi, la zone sensible qui est une coupe fine peut varier au sein de l'échantillon. Le dispositif permet ainsi d'effectuer des mesures par tranches de profondeur successives, parallèles à la surface de l'aimant, avec une précision allant jusqu'à \num{50}~\textmu m. Il est ainsi possible d'acquérir le signal à différentes profondeurs.
 
 \begin{figure}[htbp]
 \centering
@@ -213,12 +213,11 @@ Ces espèces ont été cultivées dans des \textit{rhizotrons}, des dispositifs 
 
 Le jeu de données présente ainsi trois dimensions d'évolution. La première est une dimension spatiale, correspondant à la profondeur de mesure au sein du rhizotron. La deuxième est une dimension temporelle à l'échelle de la milliseconde, correspondant au temps d'écho selon lequel évolue chaque signal de relaxation RMN. Enfin, une troisième dimension temporelle, à une échelle macroscopique de l'ordre de l'heure, permet de suivre l'évolution des signaux au cours du temps et notamment de mettre en évidence des variations liées au cycle circadien.
 
-La composante spatiale permet notamment de localiser la présence d'eau dans le système expérimental. Le signal RMN présente ainsi une forte concentration à une profondeur correspondant à la position de la racine, qui constitue la principale composante du système expérimental contenant une quantité importante d'eau. La figure~\ref{fig:signal_complet} présente différentes représentations de ces trois dimensions. Le signal de relaxation observé dans la racine présente une décroissance généralement multiexponentielle. La figure présente ici un signal moyen calculé à partir des mesures réalisées sur \textit{Dactylis glomerata}.
+La composante spatiale permet notamment de localiser la présence d'eau dans le système expérimental. Le signal RMN présente ainsi une forte concentration à une profondeur correspondant à la position de la racine, qui constitue la principale composante du système expérimental contenant une quantité importante d'eau. La Figure~\ref{fig:signal_complet} présente différentes représentations de ces trois dimensions (notamment l'organisation 3D sur la Figure~\ref{fig:volume3D}, le profil spatial sur la Figure~\ref{fig:profil_profondeur} et le profil temporel sur la Figure~\ref{fig:profil_temps}). Le signal de relaxation observé dans la racine présente une décroissance généralement multiexponentielle. La figure présente ici un signal moyen calculé à partir des mesures réalisées sur \textit{Dactylis glomerata}.
 
 \begin{figure}[htbp]
 \centering
 
-```
 \begin{subfigure}{0.95\textwidth}
     \centering
     \includegraphics[width=\textwidth]{volume3D}
@@ -244,7 +243,6 @@ La composante spatiale permet notamment de localiser la présence d'eau dans le 
 
 \caption{Différentes représentations du signal mesuré sur \textit{Dactylis glomerata}.}
 \label{fig:signal_complet}
-```
 
 \end{figure}
 
@@ -321,7 +319,6 @@ qu'elles proviennent du jeu « Racines » ou du jeu « Tronc » :
 \item le développement de méthodes de définition et d'extraction des régions
 d'intérêt dans les acquisitions RMN ;
 
-```
 \item l'étude et l'intégration de méthodes de détection des acquisitions
 aberrantes afin d'améliorer la robustesse des jeux de données ;
 
@@ -331,7 +328,6 @@ afin d'automatiser la recherche de configurations performantes ;
 \item l'implémentation et l'adaptation de méthodes d'explicabilité, notamment
 Grad-CAM et Grad-CAM++, afin d'analyser les régions des signaux utilisées
 par les modèles.
-```
 
 \end{enumerate}
 
@@ -344,11 +340,9 @@ jeu de données « Racines » :
 notamment les caractéristiques des signaux, les métadonnées expérimentales
 et une stratégie de classification multi-têtes ;
 
-```
 \item l'étude du transfert de connaissances entre données RMN simulées et
 données expérimentales selon plusieurs stratégies de pré-entraînement et
 de fine-tuning.
-```
 
 \end{enumerate}
 
@@ -405,7 +399,7 @@ La classification de l'état physiologique à partir du signal temporel pur 1D e
     
     \item \textbf{Une branche Multi-Layer Perceptron (MLP) dédiée aux métadonnées :} Ce sous-réseau traite un vecteur exogène composé des caractéristiques physiques de l'environnement (température de la chambre climatique, humidité).
     
-    \item \textbf{Une projection multi-têtes spécifique (Multi-Head Classifier) :} Pour contrer le phénomène d'\textit{oubli catastrophique} (\textit{catastrophic forgetting}) observé lors du transfert de connaissances sur les espèces initialement non convergentes, le classifieur final est partitionné en sous-réseaux denses indépendants, dédiés chacun à une espèce. Cette modularité permet de figer les descripteurs génériques extraits par le tronc commun (\textit{backbone}) tout en spécialisant la décision linéaire sans altérer les compétences acquises sur les 4 espèces de référence. A voir maintenant si il existe des groupes d'espèces homogènes qui permettraient de généraliser la classification.
+    \item \textbf{Une projection multi-têtes spécifique (Multi-Head Classifier) :} Pour contrer le phénomène d'\textit{oubli catastrophique} (\textit{catastrophic forgetting}) observed lors du transfert de connaissances sur les espèces initialement non convergentes, le classifieur final est partitionné en sous-réseaux denses indépendants, dédiés chacun à une espèce. Cette modularité permet de figer les descripteurs génériques extraits par le tronc commun (\textit{backbone}) tout en spécialisant la décision linéaire sans altérer les compétences acquises sur les 4 espèces de référence. A voir maintenant si il existe des groupes d'espèces homogènes qui permettraient de généraliser la classification.
 \end{itemize}
 
 L'intégration de ces représentations s'effectue par concaténation (\textit{feature fusion}) en amont de la tête de classification sélectionnée, dotée d'une régularisation par \textit{Dropout} ($0.5$).
@@ -490,22 +484,22 @@ Les cartes obtenues peuvent également être exploitées pour revenir au signal 
     \centering
     \includegraphics[width=0.9\textwidth]{pretraitement}
     \caption{chaîne totale du prétraitement des données de l'étude de \protect\cite{nuixe2024use}}
-    \label{fig:ROI}
+    \label{fig:pretraitement_chaine}
     \end{figure}
 
 
 \subsection{Extraction de la ROI et réduction de dimensionnalité (2D vers 1D)}
 \label{subsec:reduction_dimension}
 
-Pour pallier le faible $SNR$ et éliminer les informations non pertinentes, une stratégie géométrique de réduction de dimension a été développée dans le module de traitement. Le signal 2D brut contient des couches de profondeur correspondant à des milieux extérieurs à la structure racinaire d'intérêt (air, vitre, terre pure). Le traitement applique les étapes suivantes :
+Pour pallier le faible $SNR$ et éliminer les informations non pertinentes, une stratégie géométrique de réduction de dimension a été développée dans le module de traitement (synthétisée dans la Figure~\ref{fig:pretraitement_chaine}). Le signal 2D brut contient des couches de profondeur correspondant à des milieux extérieurs à la structure racinaire d'intérêt (air, vitre, terre pure). Le traitement applique les étapes suivantes :
 \begin{enumerate}
-    \item \textbf{Calcul du profil de densité moyen :} L'intensité moyenne du signal est calculée sur l'ensemble des profils temporels pour identifier la distribution spatiale de la matière (cf \ref{fig:ROI}).
+    \item \textbf{Calcul du profil de densité moyen :} L'intensité moyenne du signal est calculée sur l'ensemble des profils temporels pour identifier la distribution spatiale de la matière (cf. Figure~\ref{fig:ROI_prof}).
     
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.8\textwidth]{Magali_ROI}
 \caption{Intensité moyenne du signal de relaxation en fonction de la profondeur de mesure pour les 10 espèces du jeu de données \protect\cite{nuixe2024use}}
-\label{fig:ROI}
+\label{fig:ROI_prof}
 \end{figure}
     \item \textbf{Seuillage adaptatif :} Un seuil fixé à \num{70}\% de la valeur de crête du profil macroscopique isole les indices de profondeur correspondant au système racinaire.
     \item \textbf{Élimination des effets de bord :} Afin de se prémunir des artefacts de transition aux interfaces, le pipeline extrait le tiers central de la ROI détectée (sélection des canaux d'indice $\lfloor \frac{n}{3} \rfloor$ à $\lfloor \frac{2n}{3} \rfloor$). Une moyenne spatiale transforme ensuite la matrice 2D en un vecteur 1D de décroissance temporelle épuré.
@@ -516,7 +510,7 @@ Pour pallier le faible $SNR$ et éliminer les informations non pertinentes, une 
 \subsection{Sélection empirique du modèle de détection d'anomalies}
 \label{subsec:benchmark_outliers}
 
-Le niveau de bruit du capteur, induisant des signaux aberrants, a rendu l'intégration d'un module de détection d'anomalies en amont indispensable. Pour sélectionner le modèle le plus adapté, notre démarche s'est concentrée sur les cas les plus critiques du jeu de données. Nous avons d'abord isolé deux espèces spécifiques (3 et 5) dont respectivement \num{16} et \num{51} mesures présentaient un profil visuellement très bruité et aberrant. Ces signaux ont servi de base de référence pour observer le comportement de six algorithmes de la librairie \textit{PyOD} : \textit{$K$-Nearest Neighbors} (KNN), \textit{Isolation Forest} (IForest), \textit{COPOD}, \textit{One-Class SVM} (OCSVM), \textit{HBOS}, et \textit{PCA}.
+Le niveau de bruit du capteur, induisant des signaux aberrants, a rendu l'intégration d'un module de détection d'anomalies en amont indispensable. Pour sélectionner le modèle le plus adapté, notre démarche s'est concentrée sur les cas les plus critiques du jeu de données. Nous avons d'abord isolé deux espèces spécifiques (3 et 5) dont respectivement \num{16} et \num{51} mesures présentaient un profil visuellement très bruité et aberrant, comme l'illustre la dégradation du $SNR$ montrée en Figure~\ref{fig:SNR}. Ces signaux ont servi de base de référence pour observer le comportement de six algorithmes de la librairie \textit{PyOD} : \textit{$K$-Nearest Neighbors} (KNN), \textit{Isolation Forest} (IForest), \textit{COPOD}, \textit{One-Class SVM} (OCSVM), \textit{HBOS}, et \textit{PCA}.
 
 \begin{figure}[htbp]
 \centering
@@ -697,7 +691,7 @@ Cette asymétrie de sensibilité (\num{90.64}\% vs \num{77.91}\%) confirme que l
 
 
 \subsection{Explicabilité du modèle par approche Grad-CAM et pertinence biophysique}
-\label{subsec:explicabilite}
+\label{subsec:explicabilite_resultats}
 
 Conformément aux objectifs scientifiques fixés, une étude d'explicabilité a été menée pour analyser les prédictions unitaires du modèle \textit{1D-CNN}. Pour ce faire, l'algorithme \textit{Grad-CAM} (\textit{Gradient-weighted Class Activation Mapping}) a été adapté et implémenté sur notre architecture convolutive monodimensionnelle. En utilisant les gradients du score de la classe prédite relativement aux cartes de caractéristiques (\textit{feature maps}) de la dernière couche convolutive, Grad-CAM permet de calculer un vecteur d'importance grossier qui est ensuite moyenné sur des portions de 32 points de large.
 
@@ -706,7 +700,7 @@ Les cartes Grad-CAM obtenues pour les différentes espèces ont été regroupée
 
 \subsubsection{Espèces de référence}
 
-Cette première catégorie regroupe les quatre espèces de référence utilisées dans l'étude. Les profils d'importance permettent d'identifier les régions du signal principalement exploitées par le modèle pour réaliser la classification.
+Cette première catégorie regroupe les quatre espèces de référence utilisées dans l'étude. Les profils d'importance présentés sur la Figure~\ref{fig:gradcam_reference} permettent d'identifier les régions du signal principalement exploitées par le modèle pour réaliser la classification.
 
 \begin{figure}[htbp]
     \centering
@@ -717,7 +711,7 @@ Cette première catégorie regroupe les quatre espèces de référence utilisée
 
 \subsubsection{Espèces présentant une accuracy proche de 60\,\%}
 
-Cette catégorie regroupe les deux espèces pour lesquelles les performances de classification sont les plus faibles, avec une accuracy d'environ 60\,\%. L'analyse des cartes Grad-CAM permet d'étudier les zones du signal utilisées par le modèle et d'identifier d'éventuelles causes de confusion entre les classes.
+Cette catégorie regroupe les deux espèces pour lesquelles les performances de classification sont les plus faibles, avec une accuracy d'environ 60\,\%. L'analyse des cartes Grad-CAM illustrées sur la Figure~\ref{fig:gradcam_60acc} permet d'étudier les zones du signal utilisées par le modèle et d'identifier d'éventuelles causes de confusion entre les classes.
 
 \begin{figure}[htbp]
     \centering
@@ -728,7 +722,7 @@ Cette catégorie regroupe les deux espèces pour lesquelles les performances de 
 
 \subsubsection{Autres espèces}
 
-Enfin, cette dernière catégorie regroupe les deux espèces restantes. Celles-ci présentent la particularité d'être correctement discriminées lors d'un apprentissage dédié (intra-espèce), mais s'avèrent incapables de converger au sein d'un modèle global, leur signal entrant en conflit avec la dynamique générale du jeu de données.
+Enfin, cette dernière catégorie regroupe les deux espèces restantes. Celles-ci présentent la particularité d'être correctement discriminées lors d'un apprentissage dédié (intra-espèce), mais s'avèrent incapables de converger au sein d'un modèle global, leur signal entrant en conflit avec la dynamique générale du jeu de données. Leurs profil d'activation Grad-CAM sont représentés en Figure~\ref{fig:gradcam_autres}.
 
 \begin{figure}[htbp]
     \centering
@@ -744,10 +738,10 @@ Enfin, cette dernière catégorie regroupe les deux espèces restantes. Celles-c
 
 
 \section{Exploitation des données RMN simulées}
-\label{sec}
+\label{sec:simul}
 
 \subsection{Objectif de l'étude}
-\label{subsec}
+\label{subsec:obj_simul}
 
 L'utilisation de données simulées constitue une approche complémentaire aux données expérimentales afin d'évaluer la quantité d'information physiologique effectivement contenue dans les signaux RMN. L'objectif de cette étude est de répondre à la question suivante :
 
@@ -760,7 +754,7 @@ Cette question présente un double intérêt. D'une part, des données simulées
 L'étude a donc été menée selon une stratégie de pré-entraînement sur les données simulées, suivie de plusieurs protocoles permettant d'évaluer la capacité de généralisation du modèle vers les données expérimentales.
 
 \subsection{Pré-entraînement sur les données simulées}
-\label{subsec}
+\label{subsec:pretrain_simul}
 
 Dans un premier temps, le modèle convolutif est entraîné exclusivement sur les signaux générés par simulation. L'objectif est de déterminer si les caractéristiques apprises à partir de ces données sont directement exploitables sur les signaux expérimentaux.
 
@@ -769,7 +763,7 @@ Le modèle utilisé repose sur la même architecture convolutive que celle emplo
 Le pré-entraînement consiste à optimiser l'ensemble des paramètres du réseau sur les données simulées. Une fois cette étape réalisée, les poids obtenus sont utilisés comme point de départ pour les différentes stratégies de transfert étudiées.
 
 \subsection{Évaluation du transfert vers les données expérimentales}
-\label{subsec}
+\label{subsec:eval_transfert}
 
 Trois stratégies ont été comparées afin d'évaluer le degré de transférabilité des représentations apprises sur les données simulées :
 
@@ -785,9 +779,9 @@ Trois stratégies ont été comparées afin d'évaluer le degré de transférabi
 Cette comparaison permet de distinguer deux effets. Le premier est la capacité intrinsèque des représentations apprises sur simulation à se généraliser à des données qui n'ont jamais été observées pendant l'entraînement. Le second correspond à la capacité du réseau à adapter ces représentations aux spécificités des acquisitions expérimentales.
 
 \subsection{Résultats}
-\label{subsec}
+\label{subsec:res_simul}
 
-Les résultats obtenus montrent que les données simulées contiennent bien une information exploitable pour la classification. En particulier, l'approche \textit{zero-shot} permet d'obtenir une accuracy d'environ \num{60}%, avec certaines espèces atteignant environ \num{70}%. Ces performances sont supérieures à un comportement purement aléatoire, mais restent éloignées des performances obtenues lorsque le modèle est entraîné directement sur les données expérimentales.
+Les résultats obtenus montrent que les données simulées contiennent bien une information exploitable pour la classification. En particulier, l'approche \textit{zero-shot} permet d'obtenir une accuracy d'environ \num{60}\%, avec certaines espèces atteignant environ \num{70}\%. Ces performances sont supérieures à un comportement purement aléatoire, mais restent éloignées des performances obtenues lorsque le modèle est entraîné directement sur les données expérimentales.
 
 Le résultat obtenu en \textit{zero-shot} constitue ainsi un premier élément en faveur de l'existence d'une information commune entre les signaux simulés et expérimentaux. Le réseau est capable de produire des prédictions pertinentes sur des signaux qu'il n'a jamais utilisés pour son apprentissage. Cependant, le niveau de performance obtenu reste insuffisant pour considérer la simulation seule comme une solution complète au problème de classification.
 
@@ -810,7 +804,7 @@ Fine-tuning     & Non gelé  & $75\% \pm 2\%$ \\
 Ces résultats mettent en évidence une limite importante du transfert direct entre simulation et expérimentation. Les représentations apprises à partir des données simulées sont suffisamment pertinentes pour extraire une partie de l'information discriminante présente dans les signaux réels, mais elles ne permettent pas de reproduire intégralement la complexité des acquisitions expérimentales.
 
 \subsection{Limites de la simulation}
-\label{limites}
+\label{subsec:limites_simul}
 
 Une première limite de l'approche réside dans le nombre de paramètres physiques pris en compte lors de la génération des signaux simulés. La simulation ne reproduit pas nécessairement l'ensemble des facteurs susceptibles d'influencer les acquisitions expérimentales. Certains paramètres pouvant modifier la forme ou l'amplitude du signal ne sont ainsi pas représentés dans le modèle de simulation.
 
@@ -821,9 +815,9 @@ Cette contrainte expérimentale constitue une difficulté pour enrichir directem
 Ainsi, les performances obtenues en \textit{zero-shot} montrent que la simulation reproduit une partie des caractéristiques pertinentes des signaux expérimentaux, mais les écarts observés après transfert suggèrent que certains facteurs absents de la simulation restent nécessaires pour reproduire fidèlement les données réelles.
 
 \subsection{Discussion}
-\label{subsec}
+\label{subsec:discussion_simul}
 
-L'expérience permet finalement de répondre partiellement à la question initiale. La simulation seule ne permet pas d'obtenir les meilleures performances de classification, mais elle n'est pas non plus dépourvue de pouvoir discriminant. Les performances obtenues en \textit{zero-shot}, supérieures au hasard et pouvant atteindre environ \num{70}% selon les espèces, montrent que le réseau apprend des représentations qui conservent une partie de l'information pertinente lors du passage des données simulées aux données expérimentales.
+L'expérience permet finalement de répondre partiellement à la question initiale. La simulation seule ne permet pas d'obtenir les meilleures performances de classification, mais elle n'est pas non plus dépourvue de pouvoir discriminant. Les performances obtenues en \textit{zero-shot}, supérieures au hasard et pouvant atteindre environ \num{70}\% selon les espèces, montrent que le réseau apprend des représentations qui conservent une partie de l'information pertinente lors du passage des données simulées aux données expérimentales.
 
 L'amélioration obtenue lorsque le backbone est laissé entraînable est particulièrement informative. Elle suggère que les caractéristiques générales apprises sur les simulations constituent une bonne initialisation, mais qu'elles doivent être adaptées aux spécificités des acquisitions réelles. Le fine-tuning permet ainsi de conserver une partie des connaissances acquises lors du pré-entraînement tout en ajustant les représentations aux phénomènes non reproduits par la simulation.
 
@@ -960,21 +954,19 @@ L'utilisation d'une architecture convolutive $2D$ présente également un intér
 
 Contrairement à l'approche utilisée pour les signaux unidimensionnels, l'explicabilité est ici naturellement représentée sous la forme d'une carte bidimensionnelle. Pour chaque signal, trois représentations peuvent être comparées : le signal RMN original, la carte d'importance obtenue par Grad-CAM++ et la superposition de cette carte sur le signal original.
 
-Les résultats montrent que le réseau ne répartit pas uniformément son attention sur l'ensemble du signal. Une importance particulièrement élevée apparaît dans certaines régions correspondant à des zones spécifiques de la représentation temporelle et spatiale. Cette information est difficile à conserver lorsqu'une matrice $2D$ est réduite à une seule courbe.
+Les résultats montrent que le réseau ne répartit pas uniformément son attention sur l'ensemble du signal. Une importance particulièrement élevée apparaît dans certaines régions correspondant à des zones spécifiques de la représentation temporelle et spatiale, comme illustré pour la classe stressée dans la Figure~\ref{fig:gradcam_2d_stress}. Cette information est difficile à conserver lorsqu'une matrice $2D$ est réduite à une seule courbe.
 
 \begin{figure}[htbp]
     \centering
-    % Insérer ici la figure Grad-CAM++
     \includegraphics[width=\textwidth]{gradcam_2d_stress.png}
     \caption{Exemple de cartes Grad-CAM++ obtenues pour les signaux de la classe stressée. De gauche à droite : signal RMN original, carte d'importance et superposition de la carte sur le signal.}
     \label{fig:gradcam_2d_stress}
 \end{figure}
 
-Une observation similaire peut être réalisée pour les signaux correspondant aux arbres non stressés (figure~\ref{fig:gradcam_2d_control}). Les cartes mettent en évidence des régions différentes selon la classe prédite, ce qui suggère que le réseau exploite des caractéristiques localisées dans la représentation spatio-temporelle du signal.
+Une observation similaire peut être réalisée pour les signaux correspondant aux arbres non stressés (Figure~\ref{fig:gradcam_2d_control}). Les cartes mettent en évidence des régions différentes selon la classe prédite, ce qui suggère que le réseau exploite des caractéristiques localisées dans la représentation spatio-temporelle du signal.
 
 \begin{figure}[htbp]
     \centering
-    % Insérer ici la figure Grad-CAM++
     \includegraphics[width=\textwidth]{gradcam_2d_control.png}
     \caption{Exemple de cartes Grad-CAM++ obtenues pour les signaux de la classe non stressée. De gauche à droite : signal RMN original, carte d'importance et superposition de la carte sur le signal.}
     \label{fig:gradcam_2d_control}
@@ -989,7 +981,7 @@ Cette expérience montre l'intérêt de conserver la dimension spatiale des sign
 
 Le modèle $2D$ obtient une accuracy moyenne de $83.0\% \pm 2.4\%$ sur les cinq plis de validation croisée. Ces résultats montrent qu'il est possible d'exploiter directement la structure spatio-temporelle des signaux pour distinguer les arbres soumis à un stress hydrique des arbres témoins.
 
-L'intérêt de cette représentation ne se limite cependant pas aux performances de classification. Les cartes Grad-CAM++ fournissent une localisation spatiale des régions utilisées par le réseau pour prendre sa décision. Elles permettent ainsi d'identifier simultanément les zones temporelles et les profondeurs du tronc auxquelles le modèle accorde le plus d'importance.
+L'intérêt de cette représentation ne se limite cependant pas aux performances de classification. Les cartes Grad-CAM++ présentées aux Figures~\ref{fig:gradcam_2d_stress} et \ref{fig:gradcam_2d_control} fournissent une localisation spatiale des régions utilisées par le réseau pour prendre sa décision. Elles permettent ainsi d'identifier simultanément les zones temporelles et les profondeurs du tronc auxquelles le modèle accorde le plus d'importance.
 
 Cette information constitue un avantage important par rapport à une représentation purement unidimensionnelle. Elle ouvre notamment la possibilité d'étudier si les caractéristiques discriminantes sont localisées dans certaines couches du tronc et si leur localisation évolue au cours du développement du stress hydrique.
 
@@ -1021,7 +1013,7 @@ l'interprétation de ses prédictions.
 \label{subsec:rse}
 \subsubsection{Impact environnemental du projet} La réalisation de ce projet de fin d'études a nécessité l'utilisation quotidienne d'un ordinateur, d'équipements de bureau ainsi que des infrastructures informatiques de l'entreprise. La consommation énergétique associée reste relativement limitée et provient principalement du poste de travail, de l'éclairage des locaux et des ressources informatiques utilisées pour le développement et le stockage des données. Concernant les déplacements, un trajet domicile-travail a été effectué régulièrement en bus, avec un temps de transport d'environ 50 minutes par trajet. Le recours aux transports en commun permet de limiter les émissions de gaz à effet de serre par rapport à l'utilisation d'un véhicule individuel. 
 \subsubsection{Politique de développement durable de la structure d'accueil} La structure d'accueil développe des solutions s'inscrivant dans une démarche de Responsabilité Sociétale des Entreprises (RSE). Son activité vise notamment à promouvoir des pratiques plus durables et à fournir des outils permettant d'évaluer et d'améliorer les performances environnementales des organisations. Cette orientation contribue à encourager une gestion plus responsable des ressources et à accompagner la transition écologique. 
-\subsubsection{Impact sociétal du produit développé} Le projet porte sur le développement d'outils de mesure non destructifs appliqués aux plantes. Ces outils permettent d'obtenir des informations sur l'état physiologique ou la croissance des végétaux sans les endommager ni les détruire. L'impact sociétal de cette approche est globalement positif. En effet, les méthodes non destructives contribuent à réduire le gaspillage de ressources biologiques, à améliorer le suivi des cultures et à favoriser une gestion plus précise des expérimentations agronomiques. Elles peuvent également participer à l'optimisation de l'utilisation de l'eau, des engrais ou d'autres intrants agricoles grâce à une meilleure connaissance de l'état des plantes. D'un point de vue environnemental, ces outils peuvent aider à développer des pratiques agricoles plus durables en limitant les prélèvements inutiles et en améliorant la prise de décision. Cependant, leur utilisation implique une consommation énergétique liée aux équipements électroniques et aux infrastructures informatiques nécessaires au traitement des données. Enfin, le projet ne présente pas d'enjeux particuliers concernant la protection< des données personnelles, les informations collectées portant principalement sur les caractéristiques des plantes et non sur des individus. Le bilan global du projet apparaît donc favorable, avec des bénéfices potentiels pour la recherche agronomique, l'agriculture durable et la gestion raisonnée des ressources naturelles.
+\subsubsection{Impact sociétal du produit développé} Le projet porte sur le développement d'outils de mesure non destructifs appliqués aux plantes. Ces outils permettent d'obtenir des informations sur l'état physiologique ou la croissance des végétaux sans les endommager ni les détruire. L'impact sociétal de cette approche est globalement positif. En effet, les méthodes non destructives contribuent à réduire le gaspillage de ressources biologiques, à améliorer le suivi des cultures et à favoriser une gestion plus précise des expérimentations agronomiques. Elles peuvent également participer à l'optimisation de l'utilisation de l'eau, des engrais ou d'autres intrants agricoles grâce à une meilleure connaissance de l'état des plantes. D'un point de vue environnemental, ces outils peuvent aider à développer des pratiques agricoles plus durables en limitant les prélèvements inutiles et en améliorant la prise de décision. Cependant, leur utilisation implique une consommation énergétique liée aux équipements électroniques et aux infrastructures informatiques nécessaires au traitement des données. Enfin, le projet ne présente pas d'enjeux particuliers concernant la protection des données personnelles, les informations collectées portant principalement sur les caractéristiques des plantes et non sur des individus. Le bilan global du projet apparaît donc favorable, avec des bénéfices potentiels pour la recherche agronomique, l'agriculture durable et la gestion raisonnée des ressources naturelles.
 
 
 
