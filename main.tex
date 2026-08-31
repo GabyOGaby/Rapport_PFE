@@ -180,12 +180,12 @@ Pour obtenir des informations métaboliques in vivo sans perturber le fonctionne
 \subsection{Phénomène de RMN et spécificités du capteur}
 \label{subsec:rmn}
 \subsubsection{Principe de la Résonance Magnétique Nucléaire}
-La RMN repose sur l'interaction entre le moment magnétique (spin) de certains noyaux atomiques et des champs magnétiques externes. Placés dans un tel champ, les noyaux s'ordonnent partiellement, faisant apparaître une aimantation macroscopique au sein de l'échantillon. Une brève impulsion radiofréquence (RF) appliquée à la fréquence de résonance du noyau vient perturber cet équilibre. Lors de la phase de relaxation qui suit l'arrêt de l'impulsion, les spins reviennent à leur état d'équilibre en émettant un signal RF détectable. L'analyse de cette relaxation — notamment le temps de relaxation transversal $T_2$ — fournit des informations sur la dynamique de l'eau.
+La RMN repose sur l'interaction entre le moment magnétique (spin) de certains noyaux atomiques et des champs magnétiques externes. Placés dans un tel champ, les noyaux s'ordonnent partiellement, faisant apparaître une aimantation macroscopique au sein de l'échantillon. Une brève impulsion radiofréquence (RF) appliquée à la fréquence de résonance du noyau vient perturber cet équilibre. Lors de la phase de relaxation qui suit l'arrêt de l'impulsion, les spins reviennent à leur état d'équilibre en émettant un signal RF détectable. L'analyse de cette relaxation — notamment le temps de relaxation transversal $T_2$ — fournit des informations sur la dynamique de l'eau \cite{Levitt2013}.
 
 
 \subsubsection{Le capteur NMR-MOUSE}
 
-Le NMR‑MOUSE (\textit{Mobile Universal Surface Explorer}) est un dispositif de RMN unilatéral et portable, adapté aux mesures \textit{in situ}. Contrairement aux imageurs médicaux ou de laboratoire qui confinent l'échantillon dans des champs intenses (\num{1.5} à \num{7}~T), ce capteur utilise un aimant permanent ouvert générant un champ faible d'environ \num{0.3}~T.
+Le NMR‑MOUSE (\textit{Mobile Universal Surface Explorer}) \cite{Blumich1998} est un dispositif de RMN unilatéral et portable, adapté aux mesures \textit{in situ}. Contrairement aux imageurs médicaux ou de laboratoire qui confinent l'échantillon dans des champs intenses (\num{1.5} à \num{7}~T), ce capteur utilise un aimant permanent ouvert générant un champ faible d'environ \num{0.3}~T.
 Cette configuration présente deux spécificités majeures :
 \begin{itemize}
 \item \textbf{Noyau cible :} En régime de bas champ, la détection est limitée aux noyaux d'hydrogène ($^1\text{H}$), qui possèdent la sensibilité intrinsèque la plus élevée en RMN. Ce noyau étant le constituant majeur de l'eau et donc des tissus végétaux, le NMR-MOUSE est particulièrement adapté à l'étude de la dynamique hydrique des plantes.
@@ -200,57 +200,69 @@ Cette configuration présente deux spécificités majeures :
 
 \end{itemize}
 
-
-\subsection{Jeu de données exploité}
+\subsection{Jeux de données exploités}
 \label{subsec:donnees_intro}
 
+Les travaux présentés dans ce rapport s'appuient sur deux jeux de données expérimentaux issus de travaux de recherche portant sur l'utilisation de la RMN pour caractériser la dynamique de l'eau dans les plantes. Le premier provient des travaux de thèse de M. Nuixe et est décrit notamment dans l'étude de Nuixe et al.~\cite{nuixe2024use}. Le second a été obtenu dans le cadre des travaux de thèse de S. Blystone~\cite{Shannan}.
 
-Les travaux présentés dans ce rapport s'appuient sur un jeu de données expérimental issu des travaux de thèse de M. Nuixe, détaillés dans l'étude de Nuixe et al.~\cite{nuixe2024use}.
-Ce jeu de données comprend \num{10} espèces d'herbacées : \textit{Dactylis glomerata} (espèce 1), \textit{Trifolium pratense} (espèce 2), \textit{Festuca arundinacea} (espèce 3), \textit{Lupinus angustifolius} (espèce 4), \textit{Medicago sativa} (espèce 5), \textit{Onobrychis viciifolia} (espèce 6), \textit{Plantago lanceolata} (espèce 7), \textit{Rumex acetosa} (espèce 8), \textit{Taraxacum officinale} (espèce 9) et \textit{Trifolium repens} (espèce 10).
+\subsubsection{Jeu de données « Racines »}
 
-Ces espèces ont été cultivées dans des \textit{rhizotrons} (dispositifs vitrés permettant le suivi du système racinaire). Les mesures ont été acquises de manière non destructive à l'aide du capteur NMR-MOUSE, produisant des courbes de décroissance de relaxation transversale $T_2$ par séquences CPMG à \num{256} échos, pour des profondeurs variant de \num{0}~mm (vitre) à \num{14.7}~mm (substrat), soit des signaux de dimension $256 \times 148$. Chaque espèce a été mesurée entre 100 et 200 fois, avec des intervalles d'environ \num{40}~min.
+Le premier jeu de données comprend \num{10} espèces d'herbacées : \textit{Dactylis glomerata} (espèce 1), \textit{Trifolium pratense} (espèce 2), \textit{Festuca arundinacea} (espèce 3), \textit{Lupinus angustifolius} (espèce 4), \textit{Medicago sativa} (espèce 5), \textit{Onobrychis viciifolia} (espèce 6), \textit{Plantago lanceolata} (espèce 7), \textit{Rumex acetosa} (espèce 8), \textit{Taraxacum officinale} (espèce 9) et \textit{Trifolium repens} (espèce 10).
 
-(1) Notre jeu de données présente trois dimensions d’évolution. La première est une dimension spatiale, correspondant à la profondeur au sein de l’échantillon. La deuxième est une dimension temporelle à l’échelle de la milliseconde, correspondant au temps d’écho, selon lequel évolue chaque signal de RMN. Enfin, une troisième dimension temporelle, à une échelle macroscopique de l’ordre de l’heure, permet de suivre l’évolution des signaux au cours du temps et notamment au regard du cycle circadien.
+Ces espèces ont été cultivées dans des \textit{rhizotrons}, des dispositifs vitrés permettant notamment l'observation et le suivi du système racinaire. Les mesures ont été acquises de manière non destructive à l'aide du capteur NMR-MOUSE. Celui-ci permet d'obtenir des courbes de décroissance de la relaxation transversale $T_2$ à l'aide d'une séquence CPMG comportant \num{256} échos~\cite{Meiboom1958}. Les mesures sont réalisées à différentes profondeurs, comprises entre \num{0}~mm, correspondant à la vitre, et \num{14.7}~mm dans le substrat, conduisant à des signaux de dimension $256 \times 148$. Chaque espèce a été mesurée entre 100 et 200 fois, avec un intervalle d'environ \num{40}~min entre deux acquisitions.
 
-(2) On observe un signal très localisé, à une profondeur correspondant à celle de la racine. Elle est la seule composante qui comporte une grande quantité d'eau dans notre système expérimental/
-(3) Voici un signal de décroissance type qui est généralement multiexponentiel. Il s'agit ici d'une moyenne des signaux mesurés sur le rumex.
+Le jeu de données présente ainsi trois dimensions d'évolution. La première est une dimension spatiale, correspondant à la profondeur de mesure au sein du rhizotron. La deuxième est une dimension temporelle à l'échelle de la milliseconde, correspondant au temps d'écho selon lequel évolue chaque signal de relaxation RMN. Enfin, une troisième dimension temporelle, à une échelle macroscopique de l'ordre de l'heure, permet de suivre l'évolution des signaux au cours du temps et notamment de mettre en évidence des variations liées au cycle circadien.
+
+La composante spatiale permet notamment de localiser la présence d'eau dans le système expérimental. Le signal RMN présente ainsi une forte concentration à une profondeur correspondant à la position de la racine, qui constitue la principale composante du système expérimental contenant une quantité importante d'eau. La figure~\ref{fig:signal_complet} présente différentes représentations de ces trois dimensions. Le signal de relaxation observé dans la racine présente une décroissance généralement multiexponentielle. La figure présente ici un signal moyen calculé à partir des mesures réalisées sur \textit{Dactylis glomerata}.
 
 \begin{figure}[htbp]
+\centering
+
+```
+\begin{subfigure}{0.95\textwidth}
     \centering
+    \includegraphics[width=\textwidth]{volume3D}
+    \caption{Volume 3D du signal en fonction de la profondeur, du temps d'écho et du numéro de mesure.}
+    \label{fig:volume3D}
+\end{subfigure}
 
-    % Figure principale
-    \begin{subfigure}{0.95\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{volume3D}
-        \caption{Volume 3D du signal en fonction de la profondeur, du temps d'écho et du numéro de mesure.}
-        \label{fig:volume3D}
-    \end{subfigure}
+\vspace{0.5cm}
 
-    \vspace{0.5cm}
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{profil_profondeur}
+    \caption{Signal moyen en fonction du temps d'écho et de la profondeur.}
+    \label{fig:profil_profondeur}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{profil_temps}
+    \caption{Signal moyen en fonction du temps d'écho, dans la racine.}
+    \label{fig:profil_temps}
+\end{subfigure}
 
-    % Deux figures du bas
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{profil_profondeur}
-        \caption{Signal moyen en fonction du temps d'écho et de la profondeur.}
-        \label{fig:profil_profondeur}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{profil_temps}
-        \caption{Signal moyen en fonction du temps d'écho, dans la racine.}
-        \label{fig:profil_temps}
-    \end{subfigure}
+\caption{Différentes représentations du signal mesuré sur \textit{Dactylis glomerata}.}
+\label{fig:signal_complet}
+```
 
-    \caption{
-    Différentes représentations du signal mesuré sur le dactyle.
-    }
-    \label{fig:signal_complet}
 \end{figure}
-Sur la base des performances observées, un sous-ensemble de référence a été constitué à partir des espèces 1, 6, 9 et 10.
 
+Sur la base des performances obtenues lors des premières expérimentations, un sous-ensemble de référence a été constitué à partir des espèces 1, 6, 9 et 10. Dans la suite de ce rapport, ce jeu de données sera désigné sous le nom de jeu de données « Racines ».
 
+\subsubsection{Jeu de données « Tronc »}
+
+Le second jeu de données, issu des travaux de S. Blystone~\cite{Shannan}, porte sur l'étude de la dynamique hydrique des parties aériennes des plantes à l'aide d'un capteur RMN portable et unilatéral. Contrairement au jeu de données « Racines », les mesures sont ici réalisées sur les troncs d'arbres. Dans le cadre de notre étude, le jeu de données exploité comprend cinq arbres appartenant à une même espèce, mesurés quotidiennement au cours de l'expérience. Parmi ces cinq individus, trois sont soumis à un stress hydrique tandis que deux sont maintenus dans des conditions témoins.
+
+Pour chaque arbre, les acquisitions RMN permettent d'obtenir un signal dépendant à la fois du temps d'écho et de la profondeur de mesure. Chaque acquisition est ainsi représentée sous la forme d'une matrice de dimension $512 \times 128$, correspondant respectivement aux \num{512} temps d'écho et aux \num{128} positions spatiales. La profondeur explorée par le capteur atteint environ \num{15}~cm, permettant de caractériser la distribution du signal RMN à travers une partie importante du tronc.
+
+Les mesures étant réalisées quotidiennement sur les mêmes individus, le jeu de données possède également une dimension temporelle macroscopique. Chaque arbre est ainsi observé de manière longitudinale, ce qui permet de suivre l'évolution de son état hydrique au cours de l'expérience et notamment d'observer les différences entre les arbres soumis au stress hydrique et les arbres témoins.
+
+Le jeu de données présente donc trois dimensions d'évolution : une dimension spatiale correspondant à la profondeur dans le tronc, une dimension temporelle à l'échelle de la milliseconde correspondant au temps d'écho de la séquence de relaxation RMN, et une dimension temporelle macroscopique correspondant aux différents jours de mesure. Cette organisation permet de représenter les acquisitions sous la forme d'un volume de données, dans lequel chaque coupe selon les deux premières dimensions correspond au profil RMN d'un arbre à une date donnée.
+
+Cette structure multidimensionnelle constitue un intérêt majeur pour notre étude. Contrairement au jeu de données « Racines », pour lequel l'information spatiale est principalement utilisée pour localiser la racine, les mesures réalisées sur les troncs permettent d'exploiter directement la distribution spatiale du signal au sein de l'échantillon. L'objectif est donc d'étudier dans quelle mesure cette information spatiale peut être intégrée aux modèles d'apprentissage automatique, en complément de la dynamique de relaxation du signal, afin de mieux caractériser l'état hydrique des arbres.
+
+Dans la suite de ce rapport, ce jeu de données sera désigné sous le nom de jeu de données « Tronc ».
 
 \subsection{Objectifs scientifiques}
 \label{subsec:objectifs_projet}
@@ -298,34 +310,54 @@ Cette problématique se décline en plusieurs objectifs complémentaires :
 
 Ma contribution au projet couvre l'ensemble de la chaîne allant du traitement des
 acquisitions RMN jusqu'à l'analyse et l'interprétation des modèles
-d'apprentissage profond. Elle comprend notamment :
+d'apprentissage profond. Les différentes contributions peuvent être distinguées
+selon les jeux de données auxquels elles s'appliquent.
+
+\paragraph{Contributions communes aux deux jeux de données.}
+Les travaux suivants ont été réalisés sur l'ensemble des données exploitées,
+qu'elles proviennent du jeu « Racines » ou du jeu « Tronc » :
 
 \begin{enumerate}
-    \item le développement de méthodes de définition et d'extraction des régions
-    d'intérêt dans les acquisitions RMN ;
-    
-    \item l'étude et l'intégration de méthodes de détection des acquisitions
-    aberrantes afin d'améliorer la robustesse du jeu de données ;
-    
-    \item le développement sous PyTorch d'architectures convolutives 1D intégrant
-    notamment les caractéristiques des signaux, les métadonnées expérimentales
-    et une stratégie de classification multi-têtes ;
-    
-    \item l'étude du transfert de connaissances entre données RMN simulées et
-    données expérimentales selon plusieurs stratégies de pré-entraînement et
-    de fine-tuning ;
-    
-    \item le développement d'une architecture convolutive 2D permettant
-    d'exploiter directement la structure spatio-temporelle des signaux acquis
-    sur les troncs ;
-    
-    \item l'implémentation d'une optimisation bayésienne des hyperparamètres
-    afin d'automatiser la recherche de configurations performantes ;
-    
-    \item l'implémentation et l'adaptation de méthodes d'explicabilité, notamment
-    Grad-CAM et Grad-CAM++, afin d'analyser les régions des signaux utilisées
-    par les modèles.
+\item le développement de méthodes de définition et d'extraction des régions
+d'intérêt dans les acquisitions RMN ;
+
+```
+\item l'étude et l'intégration de méthodes de détection des acquisitions
+aberrantes afin d'améliorer la robustesse des jeux de données ;
+
+\item l'implémentation d'une optimisation bayésienne des hyperparamètres
+afin d'automatiser la recherche de configurations performantes ;
+
+\item l'implémentation et l'adaptation de méthodes d'explicabilité, notamment
+Grad-CAM et Grad-CAM++, afin d'analyser les régions des signaux utilisées
+par les modèles.
+```
+
 \end{enumerate}
+
+\paragraph{Contributions spécifiques au jeu « Racines ».}
+Les travaux suivants ont été développés spécifiquement pour l'exploitation du
+jeu de données « Racines » :
+
+\begin{enumerate}
+\item le développement sous PyTorch d'architectures convolutives 1D intégrant
+notamment les caractéristiques des signaux, les métadonnées expérimentales
+et une stratégie de classification multi-têtes ;
+
+```
+\item l'étude du transfert de connaissances entre données RMN simulées et
+données expérimentales selon plusieurs stratégies de pré-entraînement et
+de fine-tuning.
+```
+
+\end{enumerate}
+
+\paragraph{Contribution spécifique au jeu « Tronc ».}
+Enfin, l'exploitation du jeu de données « Tronc » a conduit au développement
+d'une architecture convolutive 2D permettant d'exploiter directement la
+structure spatio-temporelle des signaux acquis sur les troncs. Cette approche
+vise notamment à intégrer la dimension spatiale des acquisitions, en complément
+de la dynamique de relaxation du signal.
 
 \section{Fondements théoriques}
 \label{sec:fondements}
