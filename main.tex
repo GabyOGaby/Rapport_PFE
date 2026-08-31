@@ -175,13 +175,12 @@ L'INRAE se place au cœur des enjeux contemporains liés à la transition agroé
 \label{subsec:enjeux_agronomiques}
 Face au changement climatique, la compréhension fine des mécanismes d'adaptation des plantes à leur environnement est devenue un levier crucial pour l'agriculture de précision. Ce travail s'articule autour de deux aspects physiologiques majeurs : la caractérisation du rythme circadien (alternance Jour/Nuit), qui régule l'activité métabolique fondamentale, et la détection précoce du stress hydrique, qui impacte directement la cinétique de croissance des cultures.
 
-Pour observer ces états in vivo sans perturber le fonctionnement de la plante, les méthodes destructives traditionnelles sont écartées au profit de la Résonance Magnétique Nucléaire (RMN) portable. Cependant, les signaux spatio-temporels bruts issus de ces mesures sur le vivant présentent un rapport signal sur bruit ($SNR$) extrêmement faible et une forte variabilité, rendant l'interprétation physique directe difficile. L'objectif central de ce projet est donc de concevoir un pipeline complet d'apprentissage profond capable d'automatiser et d'expliquer la classification de ces états physiologiques à partir des courbes de relaxation.
-
+Pour obtenir des informations métaboliques in vivo sans perturber le fonctionnement de la plante, les méthodes destructives traditionnelles sont écartées au profit de la Résonance Magnétique Nucléaire (RMN) portable. Cependant, les signaux spatio-temporels bruts issus de ces mesures sur le vivant présentent un rapport signal sur bruit ($SNR$) extrêmement faible et une forte variabilité, rendant l'interprétation physique directe difficile. L'objectif central de ce projet est donc de concevoir un pipeline d'apprentissage profond permettant de classer les signaux RMN associés à des états métaboliques connus et d'identifier les composantes du signal responsables de la discrimination entre ces états.
 
 \subsection{Phénomène de RMN et spécificités du capteur}
 \label{subsec:rmn}
 \subsubsection{Principe de la Résonance Magnétique Nucléaire}
-La RMN repose sur l'interaction entre le moment magnétique (spin) de certains noyaux atomiques et des champs magnétiques externes. Placés dans un tel champ, les noyaux s'ordonnent partiellement, faisant apparaître une aimantation macroscopique au sein de l'échantillon. Une brève impulsion radiofréquence (RF) appliquée à la fréquence de résonance du noyau vient perturber cet équilibre. Lors de la phase de relaxation qui suit l'arrêt de l'impulsion, les spins reviennent à leur état d'équilibre en émettant un signal RF détectable. L'analyse de cette relaxation — notamment le temps de relaxation transverse $T_2$ — fournit des informations sur la dynamique de l'eau, directement liée aux flux de sève dans les racines.
+La RMN repose sur l'interaction entre le moment magnétique (spin) de certains noyaux atomiques et des champs magnétiques externes. Placés dans un tel champ, les noyaux s'ordonnent partiellement, faisant apparaître une aimantation macroscopique au sein de l'échantillon. Une brève impulsion radiofréquence (RF) appliquée à la fréquence de résonance du noyau vient perturber cet équilibre. Lors de la phase de relaxation qui suit l'arrêt de l'impulsion, les spins reviennent à leur état d'équilibre en émettant un signal RF détectable. L'analyse de cette relaxation — notamment le temps de relaxation transversal $T_2$ — fournit des informations sur la dynamique de l'eau.
 
 
 \subsubsection{Le capteur NMR-MOUSE}
@@ -190,7 +189,7 @@ Le NMR‑MOUSE (\textit{Mobile Universal Surface Explorer}) est un dispositif de
 Cette configuration présente deux spécificités majeures :
 \begin{itemize}
 \item \textbf{Noyau cible :} En régime de bas champ, la détection est limitée aux noyaux d'hydrogène ($^1\text{H}$), qui possèdent la sensibilité intrinsèque la plus élevée en RMN. Ce noyau étant le constituant majeur de l'eau et donc des tissus végétaux, le NMR-MOUSE est particulièrement adapté à l'étude de la dynamique hydrique des plantes.
-\item \textbf{Résolution spatiale :} Le dispositif permet d'effectuer des mesures par tranches de profondeur successives, parallèles à la surface de l'aimant, avec une précision allant jusqu'à \num{50}~\textmu m. Il est ainsi possible d'acquérir le signal de décroissance à différentes profondeurs.
+\item \textbf{Résolution spatiale :} L'ensemble aimant/antenne RF (cf. figure 1) peut être déplacé à l'aide d'un ascenceur de précision. Ainsi, la zone sensible qui est une coupe fine peut varier au sein de l'échantillon. Le dispositif permet ainsi d'effectuer des mesures par tranches de profondeur successives, parallèles à la surface de l'aimant, avec une précision allant jusqu'à \num{50}~\textmu m. Il est ainsi possible d'acquérir le signal à différentes profondeurs.
 
 \begin{figure}[htbp]
 \centering
@@ -210,6 +209,11 @@ Les travaux présentés dans ce rapport s'appuient sur un jeu de données expér
 Ce jeu de données comprend \num{10} espèces d'herbacées : \textit{Dactylis glomerata} (espèce 1), \textit{Trifolium pratense} (espèce 2), \textit{Festuca arundinacea} (espèce 3), \textit{Lupinus angustifolius} (espèce 4), \textit{Medicago sativa} (espèce 5), \textit{Onobrychis viciifolia} (espèce 6), \textit{Plantago lanceolata} (espèce 7), \textit{Rumex acetosa} (espèce 8), \textit{Taraxacum officinale} (espèce 9) et \textit{Trifolium repens} (espèce 10).
 
 Ces espèces ont été cultivées dans des \textit{rhizotrons} (dispositifs vitrés permettant le suivi du système racinaire). Les mesures ont été acquises de manière non destructive à l'aide du capteur NMR-MOUSE, produisant des courbes de décroissance de relaxation transversale $T_2$ par séquences CPMG à \num{256} échos, pour des profondeurs variant de \num{0}~mm (vitre) à \num{14.7}~mm (substrat), soit des signaux de dimension $256 \times 148$. Chaque espèce a été mesurée entre 100 et 200 fois, avec des intervalles d'environ \num{40}~min.
+
+(1) Notre jeu de données présente trois dimensions d’évolution. La première est une dimension spatiale, correspondant à la profondeur au sein de l’échantillon. La deuxième est une dimension temporelle à l’échelle de la milliseconde, correspondant au temps d’écho, selon lequel évolue chaque signal de RMN. Enfin, une troisième dimension temporelle, à une échelle macroscopique de l’ordre de l’heure, permet de suivre l’évolution des signaux au cours du temps et notamment au regard du cycle circadien.
+
+(2) On observe un signal très localisé, à une profondeur correspondant à celle de la racine. Elle est la seule composante qui comporte une grande quantité d'eau dans notre système expérimental/
+(3) Voici un signal de décroissance type qui est généralement multiexponentiel. Il s'agit ici d'une moyenne des signaux mesurés sur le rumex.
 
 \begin{figure}[htbp]
     \centering
@@ -246,6 +250,8 @@ Ces espèces ont été cultivées dans des \textit{rhizotrons} (dispositifs vitr
 \end{figure}
 Sur la base des performances observées, un sous-ensemble de référence a été constitué à partir des espèces 1, 6, 9 et 10.
 
+
+
 \subsection{Objectifs scientifiques}
 \label{subsec:objectifs_projet}
 
@@ -258,9 +264,7 @@ Cette problématique se décline en plusieurs objectifs complémentaires :
 \begin{enumerate}
     \item \textbf{Exploiter les acquisitions individuelles :}
     développer une chaîne de traitement permettant d'extraire et de nettoyer
-    les signaux RMN individuels malgré leur faible rapport signal sur bruit,
-    afin d'éviter de dépendre systématiquement du moyennage de plusieurs
-    acquisitions.
+    les signaux RMN individuels malgré leur faible rapport signal sur bruit.
 
     \item \textbf{Développer des modèles adaptés aux signaux RMN :}
     concevoir des architectures convolutives capables d'extraire
@@ -297,7 +301,7 @@ acquisitions RMN jusqu'à l'analyse et l'interprétation des modèles
 d'apprentissage profond. Elle comprend notamment :
 
 \begin{enumerate}
-    \item le développement de méthodes d'extraction et de réduction des régions
+    \item le développement de méthodes de définition et d'extraction des régions
     d'intérêt dans les acquisitions RMN ;
     
     \item l'étude et l'intégration de méthodes de détection des acquisitions
@@ -331,20 +335,20 @@ Cette section présente les principaux concepts théoriques nécessaires à la c
 \subsection{Apprentissage profond pour les séries temporelles}
 \label{subsec:deep_learning_series}
 
-Les signaux de relaxation RMN étudiés dans ce travail peuvent être représentés, après prétraitement, sous la forme de séries temporelles unidimensionnelles. Contrairement à des données tabulaires classiques, une série temporelle possède une structure locale et une dépendance entre ses différentes observations. Dans le cas présent, chaque valeur du signal correspond à un temps de mesure donné et la forme globale de la courbe constitue une information discriminante pour l'identification de l'état physiologique de la plante.
+Les signaux de relaxation RMN étudiés dans ce travail peuvent être représentés, après prétraitement, sous la forme de séries temporelles unidimensionnelles. Contrairement à des données tabulaires classiques, ces séries présentent des dépendances entre leurs différentes observations, à deux échelles. À l'échelle du signal RMN, les points successifs ne sont pas indépendants : une population d'eau est caractérisée par une dynamique de relaxation qui se traduit notamment par une décroissance exponentielle du signal. À une échelle temporelle plus large, les mesures réalisées sur une même plante sont également liées entre elles, puisqu'elles permettent de suivre longitudinalement son évolution au cours du temps. Ainsi, la forme du signal de relaxation et son évolution au cours du temps constituent des informations potentiellement discriminantes pour l'identification de l'état physiologique de la plante.
 
 Les méthodes d'apprentissage profond permettent d'apprendre automatiquement des représentations adaptées à ce type de données. Contrairement à une approche reposant sur une extraction manuelle de caractéristiques, le réseau apprend directement, à partir des signaux bruts ou prétraités, les représentations utiles à la classification.
 
 Cette propriété est particulièrement intéressante dans le contexte de la RMN. La forme du signal peut dépendre simultanément de plusieurs phénomènes physiques et biologiques, rendant difficile la définition a priori d'un ensemble de descripteurs pertinents. Le réseau peut ainsi apprendre plusieurs niveaux de représentation : les premières couches peuvent détecter des variations locales du signal, tandis que les couches plus profondes combinent ces informations pour construire des caractéristiques plus globales.
 
-Dans ce travail, cette approche est mise en oeuvre à l'aide de réseaux convolutifs 1D pour les signaux réduits à une dimension. Une extension à des réseaux convolutifs 2D est également étudiée pour les signaux pour lesquels la dimension spatiale apporte une information supplémentaire.
+Dans ce travail, cette approche est mise en oeuvre dans un premier temps pour les signaux réduits à une dimension, à l'aide de réseaux convolutifs 1D, pour nos données "racines". Une extension à des réseaux convolutifs 2D est également étudiée pour les signaux pour lesquels la dimension spatiale apporte une information supplémentaire, c'est à dire les données "troncs".
 
 \subsection{Réseaux de neurones convolutifs}
 \label{subsec:cnn}
 
-Les réseaux de neurones convolutifs (\textit{Convolutional Neural Networks}, CNN) sont particulièrement adaptés à l'analyse de données présentant une structure locale. Une couche convolutive applique un ensemble de filtres appris à des régions locales de l'entrée. Chaque filtre permet ainsi d'extraire une caractéristique particulière du signal.
+Les réseaux de neurones convolutifs (\textit{Convolutional Neural Networks}, CNN) sont particulièrement adaptés à l'analyse de données présentant une structure locale \cite{LeCun2015}. Une couche convolutive applique un ensemble de filtres appris à des régions locales de l'entrée. Chaque filtre permet ainsi d'extraire une caractéristique particulière du signal.
 
-Pour un signal unidimensionnel $x$, une convolution peut être exprimée sous la forme :
+Pour un signal unidimensionnel $x$, une opération de convolution peut être représentée, dans sa forme discrète simplifiée, par : 
 
 \begin{equation}
 y_i = \sum_{j=0}^{K-1} w_j x_{i+j} + b,
@@ -521,7 +525,7 @@ Espèce 10 & 0  & 0  & 0  & 0  & 0  & 0  \\
 \end{tabular}%
 }
 \end{table}
-L'analyse des résultats montre que l'algorithme KNN se distingue des autres méthodes pour deux raisons déterminantes. D'une part, il est le plus rapide en termes de temps d'exécution, ce qui le rend particulièrement adapté à un pipeline de prétraitement. D'autre part, et surtout, il est le \textbf{seul} à avoir correctement identifié les profils aberrants préalablement repérés lors de l'analyse visuelle, notamment les \num{16} et \num{51} mesures corrompues des deux espèces cibles. En éliminant proprement ces observations avant la phase de classification, le KNN a supprimé d'importants vecteurs de confusion et permis au modèle 1D-CNN d'atteindre ses meilleures performances.
+L'analyse des résultats montre que l'algorithme KNN se distingue des autres méthodes pour deux raisons déterminantes. D'une part, il est le plus rapide, ce qui le rend particulièrement adapté à un pipeline de prétraitement. D'autre part, il est le \textbf{seul} à avoir correctement identifié les profils aberrants préalablement repérés lors de l'analyse visuelle, notamment les \num{16} et \num{51} mesures corrompues des deux espèces cibles. En éliminant proprement ces observations avant la phase de classification, le KNN a supprimé d'importants vecteurs de confusion et permis au modèle 1D-CNN d'atteindre ses meilleures performances. Il a donc été systématiquement appliqué sur les données.
 
 
 
@@ -531,7 +535,7 @@ L'analyse des résultats montre que l'algorithme KNN se distingue des autres mé
 \subsection{Pipeline de données et labellisation physiologique}
 \label{subsec:pipeline_data}
 
-Les fenêtres temporelles de référence retenues au sein de la chambre climatique sont $[10\text{h}, 23\text{h}[$ pour la phase de jour et $[0\text{h}, 9\text{h}[$ pour la phase de nuit. Afin de tenir compte du temps de transition physiologique de la plante pour s'adapter au changement de son environnement, un délai d'une heure a été appliqué après chaque basculement de cycle. De plus, la phase médiane de cette transition présentant des signaux transitoires particulièrement flous, cette portion du signal a été volontairement exclue du jeu de données.
+Les fenêtres temporelles de référence retenues au sein de la chambre climatique sont $[10\text{h}, 23\text{h}[$ pour la phase de jour et $[0\text{h}, 9\text{h}[$ pour la phase de nuit. Afin de tenir compte du temps de transition physiologique de la plante pour s'adapter au changement de son environnement, une portion de une heure a été exclue de mes données, après chaque basculement de cycle.
 
 Le protocole de préparation des données intègre ensuite une normalisation par recentrage et réduction ($Z$-score global) appliquée à l'ensemble des échos ainsi qu'un partitionnement par validation croisée (\textit{$K$-Fold} avec $K=5$).
 
@@ -545,7 +549,7 @@ L'architecture du modèle, nommée \textit{CNN1D\_multihead}, traite la nature s
 \end{itemize}
 
 
-\section{Résultats et Validation}
+\section{Résultats et Validation pour la classification jour-nuit}
 \label{sec:resultats_analyse}
 \subsection{Évaluation préliminaire par approche mono-espèce}
 \label{subsec:approche_mono}
@@ -629,8 +633,6 @@ La comparaison de ces deux tableaux met en évidence le phénomène de perturbat
 
 Cette instabilité confirme que les signaux de ces 6 espèces agissent comme des perturbateurs lors de la rétropropagation, empêchant le classifieur d'établir une frontière de décision commune. Ces observations justifient empiriquement l'exclusion de ces données de la phase d'apprentissage centralisée et valident la nécessité de basculer vers une approche de fine-tuning ciblé ou une architecture multi-têtes.
 
-Cette approche interroge également sur la sensibilité physiologique de la structure racinaire au cycle circadien, qui pourrait expliquer la différence flagrante de résultats entre les espèces.
-
 \subsection{Analyse de la matrice de confusion}
 \label{subsec:matrice_confusion}
 
@@ -659,7 +661,7 @@ L'analyse de cette matrice permet d'extraire les métriques secondaires suivante
     \item \textbf{Rappel (Recall) pour la classe Nuit :} \num{77.91}\% (\num{127} sur \num{163} échantillons réels).
     \item \textbf{Précision globale :} \num{85.42}\% pour le Jour et \num{85.23}\% pour la Nuit.
 \end{itemize}
-Cette asymétrie de sensibilité (\num{90.64}\% vs \num{77.91}\%) confirme que les signaux nocturnes sont légèrement plus complexes à classifier.
+Cette asymétrie de sensibilité (\num{90.64}\% vs \num{77.91}\%) confirme que les signaux nocturnes sont légèrement plus difficiles à classifier.
 
 
 \subsection{Explicabilité du modèle par approche Grad-CAM et pertinence biophysique}
