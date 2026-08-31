@@ -505,12 +505,14 @@ Pour pallier le faible $SNR$ et éliminer les informations non pertinentes, une 
     \item \textbf{Élimination des effets de bord :} Afin de se prémunir des artefacts de transition aux interfaces, le pipeline extrait le tiers central de la ROI détectée (sélection des canaux d'indice $\lfloor \frac{n}{3} \rfloor$ à $\lfloor \frac{2n}{3} \rfloor$). Une moyenne spatiale transforme ensuite la matrice 2D en un vecteur 1D de décroissance temporelle épuré.
 \end{enumerate}
 
-
-
 \subsection{Sélection empirique du modèle de détection d'anomalies}
 \label{subsec:benchmark_outliers}
 
-Le niveau de bruit du capteur, induisant des signaux aberrants, a rendu l'intégration d'un module de détection d'anomalies en amont indispensable. Pour sélectionner le modèle le plus adapté, notre démarche s'est concentrée sur les cas les plus critiques du jeu de données. Nous avons d'abord isolé deux espèces spécifiques (3 et 5) dont respectivement \num{16} et \num{51} mesures présentaient un profil visuellement très bruité et aberrant, comme l'illustre la dégradation du $SNR$ montrée en Figure~\ref{fig:SNR}. Ces signaux ont servi de base de référence pour observer le comportement de six algorithmes de la librairie \textit{PyOD} : \textit{$K$-Nearest Neighbors} (KNN), \textit{Isolation Forest} (IForest), \textit{COPOD}, \textit{One-Class SVM} (OCSVM), \textit{HBOS}, et \textit{PCA}.
+Le niveau de bruit du capteur, pouvant conduire à l'acquisition de signaux fortement dégradés, a rendu nécessaire l'intégration d'un module de détection d'anomalies en amont de la classification. La sélection de la méthode de détection n'a cependant pas pu être réalisée à partir de métriques supervisées classiques, telles que la précision, le rappel ou le score $F_1$, en l'absence d'un jeu de données annoté indiquant explicitement quels signaux devaient être considérés comme aberrants. La comparaison présentée dans cette section constitue donc une \textbf{sélection empirique}, fondée principalement sur la cohérence entre les anomalies détectées automatiquement et celles identifiées lors de l'inspection visuelle des signaux.
+
+Afin de disposer d'un cas de référence suffisamment discriminant, nous avons d'abord isolé deux espèces, les espèces 3 et 5, pour lesquelles respectivement \num{16} et \num{51} mesures présentaient un profil particulièrement bruité et aberrant lors de l'analyse visuelle. La dégradation du rapport signal sur bruit ($SNR$) observée pour l'espèce 5 est notamment présentée en Figure~\ref{fig:SNR}. Ces observations ne constituent pas des annotations formelles, mais ont servi de \textbf{référence qualitative} pour comparer les différents algorithmes.
+
+Six méthodes de détection d'anomalies disponibles dans la librairie \textit{PyOD} ont ainsi été évaluées : \textit{$K$-Nearest Neighbors} (KNN), \textit{Isolation Forest} (IForest), \textit{COPOD}, \textit{One-Class SVM} (OCSVM), \textit{HBOS} et \textit{PCA}. Pour chacune d'entre elles, nous avons comparé le nombre de mesures identifiées comme aberrantes avec les observations issues de l'analyse visuelle.
 
 \begin{figure}[htbp]
 \centering
@@ -526,33 +528,37 @@ Le niveau de bruit du capteur, induisant des signaux aberrants, a rendu l'intég
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{|l|c|c|c|c|c|c|}
 \hline
-\textbf{Espèce} & \textbf{KNN} & \textbf{IForest} & \textbf{COPOD} & \textbf{OCSVM} & \textbf{HBOS} & \textbf{PCA} \\
+\textbf{Espèce} & \textbf{KNN} & \textbf{IForest} & \textbf{COPOD} & \textbf{OCSVM} & \textbf{HBOS} & \textbf{PCA} \
 \hline
-Espèce 1  & 2  & 6  & 2  & 6  & 2  & 4  \\
+Espèce 1  & 2  & 6  & 2  & 6  & 2  & 4  \
 \hline
-Espèce 2  & 1  & 0  & 0  & 1  & 2  & 0  \\
+Espèce 2  & 1  & 0  & 0  & 1  & 2  & 0  \
 \hline
-Espèce 3  & \cellcolor{green!30} 16 & 13 & 11 & 8  & \cellcolor{green!30} 16 & 8 \\
+Espèce 3  & \cellcolor{green!30} 16 & 13 & 11 & 8  & \cellcolor{green!30} 16 & 8 \
 \hline
-Espèce 4  & 1  & 2  & 2  & 3  & 1  & 1  \\
+Espèce 4  & 1  & 2  & 2  & 3  & 1  & 1  \
 \hline
-Espèce 5  & \cellcolor{green!30} 51 & 28 & 31 & 48 & 37 & 10 \\
+Espèce 5  & \cellcolor{green!30} 51 & 28 & 31 & 48 & 37 & 10 \
 \hline
-Espèce 6  & 2  & 2  & 2  & 2  & 1  & 2  \\
+Espèce 6  & 2  & 2  & 2  & 2  & 1  & 2 \
 \hline
-Espèce 7  & 2  & 1  & 2  & 2  & 1  & 2  \\
+Espèce 7  & 2  & 1  & 2  & 2  & 1  & 2 \
 \hline
-Espèce 8  & 0  & 0  & 0  & 0  & 0  & 0  \\
+Espèce 8  & 0  & 0  & 0  & 0  & 0  & 0 \
 \hline
-Espèce 9  & 0  & 0  & 0  & 0  & 0  & 0  \\
+Espèce 9  & 0  & 0  & 0  & 0  & 0  & 0 \
 \hline
-Espèce 10 & 0  & 0  & 0  & 0  & 0  & 0  \\
+Espèce 10 & 0  & 0  & 0  & 0  & 0  & 0 \
 \hline
 \end{tabular}%
 }
 \end{table}
-L'analyse des résultats montre que l'algorithme KNN se distingue des autres méthodes pour deux raisons déterminantes. D'une part, il est le plus rapide, ce qui le rend particulièrement adapté à un pipeline de prétraitement. D'autre part, il est le \textbf{seul} à avoir correctement identifié les profils aberrants préalablement repérés lors de l'analyse visuelle, notamment les \num{16} et \num{51} mesures corrompues des deux espèces cibles. En éliminant proprement ces observations avant la phase de classification, le KNN a supprimé d'importants vecteurs de confusion et permis au modèle 1D-CNN d'atteindre ses meilleures performances. Il a donc été systématiquement appliqué sur les données.
 
+Les résultats mettent en évidence une différence notable entre les méthodes. Pour les deux espèces présentant les anomalies les plus visibles, KNN et HBOS détectent respectivement \num{16} et \num{51} observations pour l'espèce 3 et l'espèce 5, ce qui correspond exactement aux nombres de signaux identifiés visuellement comme aberrants. Les autres méthodes détectent un nombre différent d'observations sur au moins l'une de ces deux espèces. Cette concordance ne permet pas d'affirmer que les observations détectées par KNN constituent la totalité des anomalies présentes dans le jeu de données, mais elle fournit un \textbf{critère empirique de cohérence} en l'absence d'annotations de référence.
+
+Le choix final du KNN repose ainsi sur la combinaison de deux critères pratiques. Premièrement, ses résultats sont cohérents avec les anomalies identifiées lors de l'inspection visuelle, en particulier pour les deux espèces les plus affectées. Deuxièmement, son temps d'exécution est inférieur à celui des autres méthodes testées, ce qui constitue un avantage dans le contexte d'un traitement appliqué systématiquement à l'ensemble des acquisitions. Le choix du KNN doit donc être interprété comme un \textbf{choix empirique adapté aux données disponibles et aux contraintes du pipeline}, et non comme la démonstration qu'il constitue intrinsèquement le meilleur algorithme de détection d'anomalies.
+
+Le KNN a par conséquent été retenu pour le prétraitement des données et appliqué systématiquement avant l'étape de classification.
 
 
 \section{Conception Logicielle et Pipeline d'Entraînement}
@@ -641,21 +647,21 @@ Espèce 10 & 91.74\% & 174 \\
 \toprule
 \textbf{Identifiant de l'Espèce} & \textbf{Accuracy Globale} & \textbf{Volume de Test (Samples)} \\ 
 \midrule
-Espèce 1.0 & 75.70\% & 132 \\
-Espèce 2.0 & 67.05\% & 140 \\
-Espèce 3.0 & 61.96\% & 126 \\
-Espèce 4.0 & 58.24\% & 128 \\
-Espèce 5.0 & 68.26\% & 192 \\
-Espèce 6.0 & 79.12\% & 140 \\
-Espèce 7.0 & 62.37\% & 146 \\
-Espèce 8.0 & 60.55\% & 132 \\
-Espèce 9.0 & 65.93\% & 146 \\
-Espèce 10.0 & 88.99\% & 174 \\
+Espèce 1 & 75.70\% & 132 \\
+Espèce 2 & 67.05\% & 140 \\
+Espèce 3 & 61.96\% & 126 \\
+Espèce 4 & 58.24\% & 128 \\
+Espèce 5 & 68.26\% & 192 \\
+Espèce 6 & 79.12\% & 140 \\
+Espèce 7 & 62.37\% & 146 \\
+Espèce 8 & 60.55\% & 132 \\
+Espèce 9 & 65.93\% & 146 \\
+Espèce 10 & 88.99\% & 174 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-La comparaison de ces deux tableaux met en évidence le phénomène de perturbation de l'apprentissage global induit par les espèces non fonctionnelles. Lorsque l'entraînement intègre les 10 espèces, on observe une dégradation généralisée des scores d'exactitude, y compris sur des classes initialement stables (l'espèce 6.0 chute par exemple de \num{85.71}\% à \num{62.37}\%). L'espèce 7.0 flirte avec le hasard (\num{50.55}\%). 
+La comparaison de ces deux tableaux met en évidence le phénomène de perturbation de l'apprentissage global induit par les espèces non fonctionnelles. Lorsque l'entraînement intègre les 10 espèces, on observe une dégradation généralisée des scores d'exactitude, y compris sur des classes initialement stables (l'espèce 6.0 chute par exemple de \num{85.71}\% à \num{62.37}\%). 
 
 Cette instabilité confirme que les signaux de ces 6 espèces agissent comme des perturbateurs lors de la rétropropagation, empêchant le classifieur d'établir une frontière de décision commune. Ces observations justifient empiriquement l'exclusion de ces données de la phase d'apprentissage centralisée et valident la nécessité de basculer vers une approche de fine-tuning ciblé ou une architecture multi-têtes.
 
@@ -906,8 +912,8 @@ La meilleure configuration obtenue lors de cette recherche correspond à une acc
         Nombre de filtres, couche 1 & 32 \\
         Nombre de filtres, couche 2 & 4 \\
         Nombre de filtres, couche 3 & 64 \\
-        Taille de la couche FC 1 & 32 \\
-        Taille de la couche FC 2 & 256 \\
+        Taille de la couche FC 1 & 128 \\
+        Taille de la couche FC 2 & 32 \\
         Taille du pooling & $64$ \\
         Taux de dropout & $0.128$ \\
         Learning rate & $0.00220$ \\
@@ -946,6 +952,21 @@ Les accuracies obtenues pour les cinq plis sont respectivement de $85\%$, $80\%$
 La faible dispersion des performances entre les différents plis indique une certaine stabilité du modèle sur le jeu de données considéré. Les performances obtenues montrent ainsi qu'un modèle convolutif exploitant directement la représentation bidimensionnelle des signaux est capable de distinguer les deux états physiologiques avec une accuracy moyenne de l'ordre de $83\%$.
 
 Il convient cependant de noter que la séparation des données a été réalisée au niveau des mesures et non au niveau des arbres. Les différents plis peuvent donc contenir des mesures provenant d'un même arbre. Les performances obtenues caractérisent ainsi principalement la capacité du modèle à généraliser à de nouvelles mesures issues des arbres observés, et ne permettent pas à elles seules d'évaluer sa capacité à généraliser à un arbre totalement nouveau.
+
+\subsection{Limites du protocole de validation croisée}
+\label{subsec:limites_kfold_2d}
+
+La validation croisée présentée précédemment est réalisée au niveau des mesures et non au niveau des individus. Ainsi, plusieurs acquisitions provenant d'un même arbre peuvent être présentes simultanément dans les ensembles d'entraînement et de validation. Ce choix doit être pris en compte dans l'interprétation des performances obtenues.
+
+Le nombre limité d'individus disponibles, soit cinq arbres au total, ne permet pas de réaliser une évaluation robuste de la généralisation inter-individus. Une séparation stricte des données au niveau des arbres aurait conduit à des ensembles de validation constitués d'un nombre très faible d'individus. Cette difficulté est particulièrement importante pour la classe témoin, qui ne comporte que deux arbres. Dans ces conditions, les performances mesurées auraient été fortement dépendantes de l'individu sélectionné pour la validation et auraient fourni une estimation peu robuste de la performance du modèle.
+
+La validation croisée a donc été réalisée au niveau des mesures afin d'évaluer, dans un premier temps, la capacité du modèle à classifier de nouvelles acquisitions provenant des individus observés. Ce protocole permet d'exploiter l'ensemble des mesures disponibles tout en conservant une stratification entre les deux classes.
+
+Cette stratégie présente néanmoins une limite importante. Les mesures successives provenant d'un même arbre peuvent être corrélées et partager certaines caractéristiques propres à cet individu. La présence de mesures d'un même arbre dans les ensembles d'entraînement et de validation peut ainsi conduire le réseau à exploiter indirectement une information liée à l'identité de l'arbre plutôt qu'à la seule signature du stress hydrique. Les performances obtenues peuvent par conséquent être optimistes par rapport à celles qui seraient observées sur un arbre totalement nouveau.
+
+Les résultats doivent donc être interprétés comme une \textbf{évaluation de la généralisation à de nouvelles mesures issues des individus étudiés}, et non comme une démonstration de la généralisation à de nouveaux individus.
+
+Une validation plus stricte, fondée par exemple sur une séparation groupée par arbre (\textit{Group K-Fold} ou \textit{Leave-One-Tree-Out}), constituerait une évaluation plus pertinente de la généralisation inter-individus. Cependant, sa fiabilité nécessiterait un nombre d'arbres sensiblement plus important, notamment pour disposer d'un nombre suffisant d'individus dans chacune des classes. L'acquisition de données supplémentaires sur un plus grand nombre d'arbres permettrait ainsi, à terme, de mettre en place un protocole de validation indépendant de l'identité individuelle.
 
 \subsection{Apport de la représentation bidimensionnelle pour l'explicabilité}
 \label{subsec:gradcam_2d}
@@ -1009,11 +1030,229 @@ conception de modèles d'apprentissage automatique, intégrant à la fois la
 qualité des données, le choix du modèle, son optimisation, son évaluation et
 l'interprétation de ses prédictions.
 
-\subsection{Partie RSE}
-\label{subsec:rse}
-\subsubsection{Impact environnemental du projet} La réalisation de ce projet de fin d'études a nécessité l'utilisation quotidienne d'un ordinateur, d'équipements de bureau ainsi que des infrastructures informatiques de l'entreprise. La consommation énergétique associée reste relativement limitée et provient principalement du poste de travail, de l'éclairage des locaux et des ressources informatiques utilisées pour le développement et le stockage des données. Concernant les déplacements, un trajet domicile-travail a été effectué régulièrement en bus, avec un temps de transport d'environ 50 minutes par trajet. Le recours aux transports en commun permet de limiter les émissions de gaz à effet de serre par rapport à l'utilisation d'un véhicule individuel. 
-\subsubsection{Politique de développement durable de la structure d'accueil} La structure d'accueil développe des solutions s'inscrivant dans une démarche de Responsabilité Sociétale des Entreprises (RSE). Son activité vise notamment à promouvoir des pratiques plus durables et à fournir des outils permettant d'évaluer et d'améliorer les performances environnementales des organisations. Cette orientation contribue à encourager une gestion plus responsable des ressources et à accompagner la transition écologique. 
-\subsubsection{Impact sociétal du produit développé} Le projet porte sur le développement d'outils de mesure non destructifs appliqués aux plantes. Ces outils permettent d'obtenir des informations sur l'état physiologique ou la croissance des végétaux sans les endommager ni les détruire. L'impact sociétal de cette approche est globalement positif. En effet, les méthodes non destructives contribuent à réduire le gaspillage de ressources biologiques, à améliorer le suivi des cultures et à favoriser une gestion plus précise des expérimentations agronomiques. Elles peuvent également participer à l'optimisation de l'utilisation de l'eau, des engrais ou d'autres intrants agricoles grâce à une meilleure connaissance de l'état des plantes. D'un point de vue environnemental, ces outils peuvent aider à développer des pratiques agricoles plus durables en limitant les prélèvements inutiles et en améliorant la prise de décision. Cependant, leur utilisation implique une consommation énergétique liée aux équipements électroniques et aux infrastructures informatiques nécessaires au traitement des données. Enfin, le projet ne présente pas d'enjeux particuliers concernant la protection des données personnelles, les informations collectées portant principalement sur les caractéristiques des plantes et non sur des individus. Le bilan global du projet apparaît donc favorable, avec des bénéfices potentiels pour la recherche agronomique, l'agriculture durable et la gestion raisonnée des ressources naturelles.
+\section{Responsabilité sociétale et environnementale}
+\label{sec:rse}
+
+Cette partie présente une analyse des impacts environnementaux et sociétaux associés au projet de fin d'études. Conformément aux recommandations de l'ENSIMAG, l'analyse est structurée selon trois niveaux : l'impact environnemental direct lié à la réalisation du PFE, l'impact environnemental et sociétal global du projet, puis la politique de responsabilité sociétale et environnementale de la structure d'accueil.
+
+L'objectif n'est pas de réaliser une analyse de cycle de vie exhaustive du projet, ce qui nécessiterait des données et des moyens qui dépassent le cadre de ce travail, mais d'identifier les principaux postes d'impact, d'en estimer les ordres de grandeur et d'en discuter les principales limites.
+
+\subsection{Impact environnemental personnel du PFE}
+\label{subsec:rse_impact_personnel}
+
+La réalisation de ce PFE a généré plusieurs types d'impacts environnementaux directs : les déplacements domicile-travail, l'utilisation du matériel informatique mis à disposition et l'utilisation de ressources de calcul, notamment des GPU. Afin de comparer ces différents postes, les consommations énergétiques sont, lorsque cela est possible, converties en potentiel de réchauffement climatique exprimé en kilogrammes équivalent CO$_2$ (kg CO$_2$e).
+
+Les estimations présentées ci-dessous reposent sur des hypothèses simplificatrices et doivent donc être interprétées comme des ordres de grandeur. En particulier, l'empreinte liée à la fabrication des équipements ne peut pas être attribuée précisément à un seul projet lorsque ceux-ci existaient déjà avant le début du PFE et sont utilisés successivement par plusieurs personnes.
+
+\subsubsection{Impact des trajets domicile-travail}
+\label{subsubsec:rse_transport}
+
+Le PFE s'est déroulé sur une durée de 23 semaines. En considérant une présence moyenne de cinq jours par semaine, cela correspond à environ 115 journées de travail.
+
+Le trajet quotidien entre le domicile et le lieu de travail représente environ 18 km dans un seul sens, soit 36 km par journée de travail. Le trajet est effectué en transports en commun, avec une première partie d'environ 5 km en tramway, puis le reste en bus.
+
+Sur l'ensemble de la période, la distance parcourue peut donc être estimée à :
+
+$$
+115 \times 36 = 4140\ \text{km}.
+$$
+
+Le recours aux transports collectifs constitue un choix relativement sobre en matière d'émissions de gaz à effet de serre. Les facteurs d'émission disponibles dans les données de référence de l'ADEME montrent notamment que le tramway électrique présente un impact très faible par passager-kilomètre, tandis que l'impact d'un trajet en bus dépend fortement de la motorisation et du taux de remplissage du véhicule. Les valeurs publiées par l'ADEME donnent par exemple un ordre de grandeur de quelques grammes de CO$_2$e par passager-kilomètre pour le transport guidé électrique, alors que les valeurs des autobus thermiques sont significativement plus élevées.
+
+Afin de ne pas attribuer arbitrairement au réseau de transport utilisé un facteur qui pourrait ne pas correspondre à sa motorisation réelle, le calcul doit donc être considéré comme une estimation. À titre d'ordre de grandeur, en utilisant des facteurs représentatifs de quelques grammes de CO$_2$e/passager.km pour le tramway et de plusieurs dizaines à une centaine de grammes de CO$_2$e/passager.km pour le bus, l'impact des déplacements se situe dans une fourchette de quelques centaines de kilogrammes de CO$_2$e sur l'ensemble du PFE.
+
+Cette estimation présente une incertitude importante, principalement liée au type exact de bus utilisé et à son taux de remplissage. Elle reste néanmoins suffisante pour mettre en évidence un point important : les déplacements domicile-travail constituent probablement l'un des principaux postes d'impact environnemental direct de mon PFE, malgré l'utilisation systématique des transports en commun.
+
+\subsubsection{Impact du poste de travail informatique}
+\label{subsubsec:rse_ordinateur}
+
+Le développement et l'analyse des données ont été réalisés quotidiennement sur un poste informatique fourni par INRAE. Les caractéristiques principales de cette machine sont les suivantes :
+
+\begin{itemize}
+\item processeur Intel Core i7-7700 à 3,60 GHz ;
+\item 8 Go de mémoire vive ;
+\item un SSD NVMe de 256 Go ;
+\item un disque dur HDD de 1 To ;
+\item carte graphique intégrée Intel HD Graphics 630 ;
+\item système d'exploitation 64 bits.
+\end{itemize}
+
+La consommation électrique exacte du poste n'ayant pas été mesurée pendant le PFE, il n'est pas possible de déterminer précisément son impact lié à la phase d'utilisation. Une estimation à partir d'un poste fixe moyen constitue donc seulement un ordre de grandeur. Les données d'EcoDiag montrent par ailleurs que, pour les équipements informatiques, la fabrication et le transport peuvent représenter une part importante de l'empreinte totale, souvent supérieure à celle associée à leur seule consommation électrique pendant la phase d'utilisation.
+
+Cette distinction est particulièrement importante dans le cas présent. L'ordinateur n'a pas été acheté spécifiquement pour le PFE : il s'agit d'un équipement déjà présent dans l'infrastructure d'INRAE et susceptible d'être utilisé sur une période beaucoup plus longue que les 23 semaines du projet. Il serait donc excessif d'attribuer l'intégralité de son empreinte de fabrication au seul PFE.
+
+L'impact pertinent à attribuer directement au projet est plutôt la fraction correspondant à son utilisation pendant les 23 semaines, tandis que l'impact de fabrication devrait être amorti sur la durée de vie de l'équipement et réparti entre ses différents utilisateurs et usages.
+
+Cette limite illustre l'une des difficultés d'une évaluation environnementale d'un projet informatique : l'empreinte d'un équipement numérique ne se résume pas à l'électricité consommée pendant son utilisation. La fabrication des composants électroniques, leur acheminement, ainsi que leur fin de vie constituent également des postes importants.
+
+\subsubsection{Utilisation des ressources GPU}
+\label{subsubsec:rse_gpu}
+
+Une partie du projet a nécessité l'utilisation de ressources de calcul distantes, notamment pour l'entraînement des réseaux de neurones. Les expérimentations ont été réalisées sur l'infrastructure CoLab.IA, équipée notamment de GPU NVIDIA A40.
+
+L'utilisation cumulée est estimée à environ 100 heures. La puissance associée à l'environnement GPU utilisé est estimée entre 0,9 et 1,02 kW. La consommation électrique correspondante peut donc être estimée par :
+
+$$
+E_{\mathrm{GPU}} = P \times t
+$$
+
+soit :
+
+$$
+90\ \text{kWh} \leq E_{\mathrm{GPU}} \leq 102\ \text{kWh}.
+$$
+
+En utilisant, à titre d'ordre de grandeur, un facteur d'émission de l'électricité du réseau français de $0,092$ kg CO$_2$e/kWh issu de la Base Carbone de l'ADEME, on obtient :
+
+$$
+8,3\ \text{kg CO}_2\text{e}
+\leq
+I_{\mathrm{GPU}}
+\leq
+9,4\ \text{kg CO}_2\text{e}.
+$$
+
+Cette estimation ne prend cependant pas en compte l'intégralité des consommations d'un centre de calcul. En particulier, la consommation du GPU ne représente qu'une partie de la consommation totale du serveur : processeur, mémoire, stockage, alimentation, refroidissement et infrastructure du centre de données doivent également être pris en compte pour obtenir une estimation complète.
+
+La valeur obtenue doit donc être interprétée comme une estimation minimale ou partielle de l'impact lié aux calculs GPU. Elle permet néanmoins de quantifier l'ordre de grandeur de cette activité et de montrer que les entraînements réalisés pendant le PFE représentent une consommation énergétique mesurable, mais limitée au regard d'une utilisation massive de modèles d'apprentissage profond.
+
+Par ailleurs, plusieurs choix méthodologiques ont permis de limiter cette consommation. Les expérimentations ont été réalisées sur des jeux de données de taille relativement limitée et les architectures ont été progressivement ajustées plutôt que de multiplier systématiquement les entraînements de grande taille. L'optimisation des hyperparamètres a également permis de concentrer les expérimentations sur des configurations prometteuses.
+
+\subsubsection{Bilan des impacts directs}
+\label{subsubsec:rse_bilan_personnel}
+
+Les principaux postes d'impact direct identifiés sont donc les déplacements, l'utilisation du poste informatique et les calculs sur GPU.
+
+\begin{table}[htbp]
+\centering
+\caption{Principaux postes d'impact environnemental direct du PFE.}
+\label{tab:rse_bilan_personnel}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Poste} & \textbf{Donnée disponible} & \textbf{Impact estimé} \
+\midrule
+Déplacements domicile-travail & 4140 km & quelques centaines de kg CO$_2$e \
+Poste informatique & 23 semaines & non quantifié précisément \
+GPU A40 & $\approx 100$ h & 8,3--9,4 kg CO$_2$e* \
+\bottomrule
+\end{tabular}
+
+\vspace{0.2cm}
+\begin{flushleft}
+\footnotesize
+
+* Estimation correspondant uniquement à l'électricité associée à la puissance GPU considérée, hors autres consommations du serveur et du centre de données.
+  \end{flushleft}
+  \end{table}
+
+Cette analyse montre que les déplacements domicile-travail représentent vraisemblablement le principal poste d'impact directement attribuable à mon activité pendant le PFE. L'utilisation des GPU constitue un poste plus ponctuel : bien qu'il soit directement lié au caractère informatique et expérimental du projet, environ 100 heures de calcul représentent une consommation électrique de l'ordre d'une centaine de kWh.
+
+L'estimation reste néanmoins incomplète. Une analyse exhaustive devrait notamment intégrer la consommation réelle du poste de travail, l'infrastructure réseau, le stockage des données, le refroidissement du centre de calcul ainsi que l'empreinte de fabrication des équipements. L'attribution de ces impacts à un seul stagiaire serait toutefois artificielle lorsque les infrastructures sont mutualisées.
+
+\subsection{Impact environnemental et sociétal global du projet}
+\label{subsec:rse_impact_global}
+
+Le projet réalisé constitue principalement un travail de recherche et de preuve de concept portant sur l'analyse de signaux RMN par apprentissage automatique. Son impact ne doit donc pas être évalué uniquement au regard de la consommation des ressources informatiques utilisées pendant le PFE. Il convient également de considérer les usages potentiels des méthodes développées, ainsi que leurs effets indirects à plus long terme.
+
+\subsubsection{Impact environnemental}
+\label{subsubsec:rse_impact_environnemental}
+
+À court terme, le projet présente un impact environnemental principalement lié à l'acquisition et au traitement des données ainsi qu'à l'utilisation des infrastructures informatiques nécessaires à l'entraînement des modèles. Les réseaux de neurones nécessitent en effet des ressources de calcul importantes, en particulier lors des phases d'optimisation et d'entraînement.
+
+Cet impact doit toutefois être mis en regard de la nature du projet. L'objectif n'est pas de produire un service numérique destiné à être utilisé par un grand nombre d'utilisateurs, mais de développer et d'évaluer des méthodes d'analyse dans un contexte de recherche. La phase d'entraînement constitue ainsi la principale phase de consommation informatique. À l'inverse, une fois un modèle entraîné, son utilisation pour effectuer une prédiction sur une nouvelle acquisition est beaucoup moins coûteuse qu'un nouvel entraînement complet.
+
+Le choix d'une approche fondée sur des modèles relativement compacts, plutôt que sur des architectures de très grande taille, limite également les besoins de calcul. Le projet a par ailleurs cherché à réutiliser les données existantes et à exploiter des simulations afin de réduire, lorsque cela est possible, la nécessité de nouvelles acquisitions expérimentales.
+
+Les données simulées présentent notamment un intérêt environnemental potentiel. Elles permettent de générer des signaux supplémentaires sans nécessiter l'utilisation du dispositif expérimental pour chaque nouvel échantillon. Elles ne constituent cependant pas un remplacement complet des données expérimentales dans l'état actuel du projet. Les résultats obtenus montrent qu'un transfert vers les données réelles reste nécessaire afin d'obtenir de bonnes performances.
+
+À plus long terme, l'utilisation de méthodes d'analyse non destructives pourrait présenter un intérêt environnemental. La RMN permet en effet d'étudier l'état physiologique de végétaux sans devoir systématiquement les détruire pour effectuer les analyses. De telles mesures pourraient faciliter le suivi longitudinal d'un même individu et limiter certains prélèvements expérimentaux.
+
+Dans un contexte agricole, une meilleure connaissance de l'état physiologique des plantes pourrait également contribuer à adapter plus précisément les apports en eau ou autres intrants. Une détection plus précoce du stress hydrique pourrait notamment permettre d'intervenir uniquement lorsque cela est nécessaire.
+
+Ces bénéfices restent cependant potentiels. Le projet ne démontre pas directement une réduction de la consommation d'eau ou des intrants agricoles. Il fournit plutôt une brique méthodologique susceptible de contribuer à de telles applications dans des travaux ultérieurs.
+
+Il faut également considérer les effets indirects et les effets rebond. Une méthode automatisée de traitement des données peut rendre l'analyse plus rapide et permettre de traiter davantage de mesures. Cette augmentation de la capacité d'analyse peut à son tour conduire à multiplier les acquisitions RMN et donc à augmenter la consommation énergétique et matérielle associée aux expérimentations. Une amélioration locale de l'efficacité informatique ne garantit donc pas nécessairement une diminution de l'impact environnemental global.
+
+Le projet présente ainsi un bilan environnemental contrasté : les calculs informatiques et les équipements nécessaires constituent un coût environnemental réel, tandis que les applications potentielles de la méthode peuvent contribuer à une utilisation plus raisonnée des ressources biologiques et agricoles. L'intérêt environnemental à long terme dépendra donc principalement de la manière dont les méthodes développées seront utilisées.
+
+\subsubsection{Impact sociétal}
+\label{subsubsec:rse_impact_societal}
+
+Le projet porte sur l'analyse de données biologiques et ne traite pas directement de données personnelles. Les enjeux classiques liés à la surveillance des individus, à la publicité ciblée ou aux algorithmes de décision appliqués aux personnes sont donc peu présents dans ce contexte.
+
+L'enjeu sociétal principal se situe plutôt au niveau des usages futurs de la méthode. Le développement d'outils permettant de mieux caractériser l'état physiologique des végétaux peut contribuer à améliorer les connaissances scientifiques sur les plantes et leurs mécanismes d'adaptation au stress hydrique.
+
+À plus grande échelle, ces connaissances peuvent participer au développement de pratiques agricoles mieux adaptées aux contraintes environnementales, notamment dans un contexte de raréfaction de la ressource en eau et d'augmentation de la fréquence des épisodes de sécheresse.
+
+L'utilisation de méthodes non destructives présente également un intérêt pour la recherche scientifique. Le suivi d'un même individu au cours du temps permet d'observer son évolution physiologique sans devoir sacrifier l'échantillon à chaque étape de l'expérimentation. Cette possibilité peut améliorer la qualité des études longitudinales tout en limitant la quantité de matériel biologique nécessaire.
+
+Il existe néanmoins plusieurs limites et risques. Tout d'abord, les modèles d'apprentissage automatique développés dans le cadre de ce projet restent dépendants des données utilisées pour leur apprentissage. Le faible nombre d'individus disponibles dans certaines expérimentations peut limiter leur capacité de généralisation à d'autres arbres, espèces ou conditions expérimentales. Une généralisation excessive des résultats pourrait donc conduire à des conclusions erronées dans un contexte agronomique différent.
+
+La transparence et l'explicabilité constituent également des enjeux importants. Dans le cadre de ce projet, des méthodes telles que Grad-CAM ont été utilisées afin d'étudier les régions du signal exploitées par le réseau. Cette approche ne permet cependant pas, à elle seule, de démontrer qu'un motif identifié par le réseau correspond effectivement à un mécanisme physiologique réel. Une validation par des connaissances biologiques indépendantes reste nécessaire.
+
+Enfin, l'automatisation de l'analyse ne doit pas conduire à remplacer systématiquement l'expertise scientifique. Les modèles développés doivent être considérés comme des outils d'aide à l'analyse et à l'interprétation plutôt que comme des systèmes capables de se substituer aux chercheurs.
+
+Ainsi, l'impact sociétal potentiel du projet est principalement positif dans le domaine de la recherche agronomique et de la compréhension des réponses des plantes au stress. Toutefois, ces bénéfices sont conditionnés par une validation scientifique rigoureuse, une bonne caractérisation des limites des modèles et une utilisation raisonnée des résultats.
+
+\subsection{Politique de responsabilité sociétale et environnementale d'INRAE}
+\label{subsec:rse_inrae}
+
+INRAE est un établissement public de recherche dont les activités portent notamment sur l'agriculture, l'alimentation, l'environnement et les transitions associées. Les enjeux de responsabilité sociétale et environnementale sont donc directement liés à ses missions scientifiques.
+
+La stratégie RSE d'INRAE est structurée au niveau institutionnel et placée sous le pilotage de la Présidence et du collège de direction. Elle est notamment portée par la Direction de la Responsabilité Sociétale et Environnementale (DRSE), chargée de coordonner transversalement les actions de l'institut. Cette organisation montre que la RSE ne se limite pas à des initiatives locales mais fait partie de la gouvernance de l'établissement.
+
+\subsubsection{Une reconnaissance institutionnelle récente : le label DD&RS}
+
+Un élément particulièrement significatif est l'obtention par INRAE, en juillet 2026, du label \textit{Développement durable et responsabilité sociétale} (DD&RS). INRAE est ainsi devenu le premier organisme national de recherche à obtenir cette labellisation.
+
+Le label DD&RS constitue une reconnaissance nationale des démarches de développement durable et de responsabilité sociétale dans l'enseignement supérieur et la recherche. Il couvre notamment les dimensions de stratégie et gouvernance, formation, recherche et innovation, environnement et politique sociale.
+
+Cette labellisation est particulièrement cohérente avec les missions d'INRAE : les recherches conduites par l'institut portent directement sur plusieurs enjeux associés aux transitions environnementales, notamment l'adaptation au changement climatique, la préservation de la biodiversité, la gestion durable des ressources naturelles et les transitions agricoles.
+
+La labellisation ne doit cependant pas être interprétée comme la preuve que l'ensemble des impacts de l'institut sont résolus. Elle constitue plutôt une reconnaissance d'une démarche structurée et un cadre d'amélioration continue. Cette distinction est importante dans une analyse RSE : une politique de développement durable doit être évaluée non seulement à partir des engagements affichés, mais également à partir de leurs résultats et de leur capacité à réduire effectivement les impacts.
+
+\subsubsection{Trajectoire bas carbone}
+
+INRAE s'est également doté d'une trajectoire bas carbone et d'un plan d'action portant notamment sur le matériel, les fournitures et services scientifiques, les unités expérimentales, l'immobilier et l'énergie, le numérique, les déplacements professionnels et les activités quotidiennes.
+
+Cette approche est intéressante dans le contexte de ce PFE, car le projet utilise précisément plusieurs des ressources concernées par cette politique : équipements informatiques, infrastructures de calcul et activités scientifiques.
+
+INRAE indique notamment viser, à l'horizon 2050, une réduction de 70,% de ses émissions carbone et une mobilisation de ses capacités de séquestration afin de contribuer à une trajectoire vers la neutralité carbone. L'institut s'est doté en 2025 d'un premier plan d'action sur cinq ans afin de mettre en œuvre cette trajectoire.
+
+La présence d'un axe consacré au numérique est particulièrement pertinente pour un projet d'apprentissage automatique. Les ressources GPU utilisées pour l'entraînement des modèles constituent en effet une consommation qui peut être optimisée par des choix méthodologiques : limitation des expérimentations inutiles, réutilisation des modèles pré-entraînés, choix d'architectures adaptées à la taille des données et arrêt des entraînements lorsque les performances n'évoluent plus suffisamment.
+
+\subsubsection{Politique sociale et conditions de travail}
+
+La démarche RSE d'INRAE ne se limite pas aux enjeux environnementaux. L'institut met également en avant les conditions de travail, l'égalité professionnelle, la diversité, l'inclusion et la qualité de vie au travail.
+
+INRAE dispose notamment d'une politique d'égalité et de diversité et a obtenu le label européen \textit{HR Excellence in Research}. L'institut a également été engagé dans une démarche de labellisation portant sur l'égalité professionnelle et la diversité.
+
+Ces dimensions sont importantes dans le contexte d'un organisme de recherche, où les enjeux sociaux concernent notamment l'attractivité des métiers scientifiques, l'égalité des chances, les conditions de travail et la capacité à maintenir un environnement de recherche ouvert et inclusif.
+
+\subsubsection{Analyse critique et pistes d'amélioration}
+
+La politique RSE d'INRAE présente plusieurs éléments structurants : une gouvernance dédiée, une stratégie institutionnelle, une trajectoire bas carbone, des plans d'action couvrant plusieurs postes d'impact et, depuis 2026, une reconnaissance par le label DD&RS.
+
+Une première piste d'amélioration concerne néanmoins la quantification et le suivi des impacts du numérique. Les projets de recherche utilisant l'apprentissage automatique peuvent avoir des besoins de calcul très variables. Il serait donc pertinent de systématiser le suivi de la consommation énergétique des ressources de calcul, par exemple en associant à chaque campagne d'entraînement une estimation de sa consommation et de son impact carbone.
+
+Une telle mesure permettrait de comparer les performances scientifiques obtenues avec les ressources mobilisées. Elle pourrait notamment encourager le choix de modèles plus sobres lorsque ceux-ci fournissent des performances comparables.
+
+Une seconde piste concerne la durée de vie des équipements informatiques. Puisque la fabrication des équipements représente une part importante de leur empreinte environnementale, l'allongement de leur durée d'utilisation constitue un levier potentiellement plus important que la seule réduction de leur consommation électrique. Le suivi de l'âge des postes, leur maintenance et leur réemploi pourraient donc contribuer à réduire leur impact.
+
+Enfin, la politique RSE pourrait continuer à intégrer les impacts indirects des activités de recherche. Dans le cas d'un projet comme celui présenté dans ce rapport, une amélioration de l'efficacité de l'analyse pourrait conduire à augmenter le nombre d'expériences réalisées. Il est donc nécessaire de considérer l'impact global de la chaîne de recherche et pas uniquement l'efficacité énergétique de chaque étape prise séparément.
+
+\subsection{Bilan}
+\label{subsec:rse_bilan}
+
+L'analyse menée montre que l'impact environnemental du PFE provient de plusieurs sources. Les déplacements domicile-travail constituent probablement le poste le plus important parmi les impacts directement attribuables à mon activité. L'utilisation des ressources de calcul représente quant à elle un poste plus ponctuel, avec environ 100 heures d'utilisation GPU correspondant à une consommation électrique de l'ordre de 90 à 102 kWh pour le GPU considéré.
+
+L'impact du poste informatique est plus difficile à quantifier précisément, notamment parce que l'équipement était déjà présent dans l'infrastructure d'INRAE et qu'il est mutualisé sur une durée supérieure à celle du PFE. Une attribution de l'intégralité de son empreinte de fabrication au projet aurait donc été artificielle.
+
+À l'échelle du projet, les bénéfices potentiels sont principalement liés au développement de méthodes d'analyse non destructives et à l'amélioration de la compréhension du stress hydrique des plantes. À plus long terme, de telles méthodes pourraient contribuer à une utilisation plus raisonnée de l'eau et des ressources agricoles. Ces bénéfices restent toutefois conditionnés par la validation scientifique des modèles et leur capacité à généraliser à de nouveaux individus et à de nouvelles conditions expérimentales.
+
+Enfin, la politique RSE d'INRAE présente une démarche institutionnelle structurée, renforcée récemment par l'obtention du label DD&RS en 2026 et par la mise en œuvre d'une trajectoire bas carbone. Le principal enjeu pour les projets utilisant l'intelligence artificielle reste de parvenir à concilier les besoins de calcul nécessaires à la recherche avec une utilisation raisonnée des ressources numériques.
+
+Cette analyse met donc en évidence que l'impact environnemental d'un projet d'intelligence artificielle ne peut pas être résumé à la seule consommation électrique des GPU. Les déplacements, la fabrication des équipements, les infrastructures informatiques, les usages futurs des résultats et les éventuels effets rebond doivent également être pris en compte pour obtenir une vision plus complète.
 
 
 
