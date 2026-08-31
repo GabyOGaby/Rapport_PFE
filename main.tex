@@ -522,36 +522,36 @@ Six méthodes de détection d'anomalies disponibles dans la librairie \textit{Py
 \end{figure}
 
 \begin{table}[H]
-\centering
-\caption{Outliers détectés par espèce selon les méthodes de détection}
-\label{tab:outliers_detection}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|c|c|c|c|c|c|}
-\hline
-\textbf{Espèce} & \textbf{KNN} & \textbf{IForest} & \textbf{COPOD} & \textbf{OCSVM} & \textbf{HBOS} & \textbf{PCA} \
-\hline
-Espèce 1  & 2  & 6  & 2  & 6  & 2  & 4  \
-\hline
-Espèce 2  & 1  & 0  & 0  & 1  & 2  & 0  \
-\hline
-Espèce 3  & \cellcolor{green!30} 16 & 13 & 11 & 8  & \cellcolor{green!30} 16 & 8 \
-\hline
-Espèce 4  & 1  & 2  & 2  & 3  & 1  & 1  \
-\hline
-Espèce 5  & \cellcolor{green!30} 51 & 28 & 31 & 48 & 37 & 10 \
-\hline
-Espèce 6  & 2  & 2  & 2  & 2  & 1  & 2 \
-\hline
-Espèce 7  & 2  & 1  & 2  & 2  & 1  & 2 \
-\hline
-Espèce 8  & 0  & 0  & 0  & 0  & 0  & 0 \
-\hline
-Espèce 9  & 0  & 0  & 0  & 0  & 0  & 0 \
-\hline
-Espèce 10 & 0  & 0  & 0  & 0  & 0  & 0 \
-\hline
-\end{tabular}%
-}
+    \centering
+    \caption{Outliers détectés par espèce selon les méthodes de détection}
+    \label{tab:outliers_detection}
+    \resizebox{\textwidth}{!}{%
+        \begin{tabular}{|l|c|c|c|c|c|c|}
+            \hline
+            \textbf{Espèce} & \textbf{KNN} & \textbf{IForest} & \textbf{COPOD} & \textbf{OCSVM} & \textbf{HBOS} & \textbf{PCA} \\
+            \hline
+            Espèce 1  & 2  & 6  & 2  & 6  & 2  & 4  \\
+            \hline
+            Espèce 2  & 1  & 0  & 0  & 1  & 2  & 0  \\
+            \hline
+            Espèce 3  & \cellcolor{green!30}16 & 13 & 11 & 8  & \cellcolor{green!30}16 & 8 \\
+            \hline
+            Espèce 4  & 1  & 2  & 2  & 3  & 1  & 1  \\
+            \hline
+            Espèce 5  & \cellcolor{green!30}51 & 28 & 31 & 48 & 37 & 10 \\
+            \hline
+            Espèce 6  & 2  & 2  & 2  & 2  & 1  & 2 \\
+            \hline
+            Espèce 7  & 2  & 1  & 2  & 2  & 1  & 2 \\
+            \hline
+            Espèce 8  & 0  & 0  & 0  & 0  & 0  & 0 \\
+            \hline
+            Espèce 9  & 0  & 0  & 0  & 0  & 0  & 0 \\
+            \hline
+            Espèce 10 & 0  & 0  & 0  & 0  & 0  & 0 \\
+            \hline
+        \end{tabular}%
+    }
 \end{table}
 
 Les résultats mettent en évidence une différence notable entre les méthodes. Pour les deux espèces présentant les anomalies les plus visibles, KNN et HBOS détectent respectivement \num{16} et \num{51} observations pour l'espèce 3 et l'espèce 5, ce qui correspond exactement aux nombres de signaux identifiés visuellement comme aberrants. Les autres méthodes détectent un nombre différent d'observations sur au moins l'une de ces deux espèces. Cette concordance ne permet pas d'affirmer que les observations détectées par KNN constituent la totalité des anomalies présentes dans le jeu de données, mais elle fournit un \textbf{critère empirique de cohérence} en l'absence d'annotations de référence.
